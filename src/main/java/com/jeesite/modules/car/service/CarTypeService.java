@@ -72,5 +72,14 @@ public class CarTypeService extends CrudService<CarTypeDao, CarType> {
 	public void delete(CarType carType) {
 		super.delete(carType);
 	}
-	
+
+	/**
+	 * 获取列表
+	 * @param entity
+	 * @return
+	 */
+	@Override
+	public List<CarType> findList(CarType entity) {
+		return super.findList(entity);
+	}
 }

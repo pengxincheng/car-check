@@ -16,7 +16,7 @@ import com.jeesite.modules.customer.dao.CustomerDao;
 /**
  * 客户表Service
  * @author pengxincheng
- * @version 2019-06-16
+ * @version 2019-06-18
  */
 @Service
 @Transactional(readOnly=true)

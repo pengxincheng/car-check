@@ -46,9 +46,9 @@
 					<div class="col-xs-6">
 						<div class="form-group">
 							<label class="control-label col-sm-4" title="">
-								<span class="required ">*</span> ${text('车型')}：<i class="fa icon-question hide"></i></label>
+								<span class="required hide">*</span> ${text('车型')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:select path="carTypeId" items="${carTypeList}" itemLabel="typeName" itemValue="typeId"  class="form-control required" />
+								<#form:select path="carType" dictType="" items="${carTypeList}" itemLabel="typeName" itemValue="typeName" blankOption="true" class="form-control" />
 							</div>
 						</div>
 					</div>
@@ -103,8 +103,4 @@ $("#inputForm").validate({
 		}, "json");
     }
 });
-/*
-$.get("/js/a/car/carType/listData",null,function (data) {
-	console.log(data);
-})*/
 </script>

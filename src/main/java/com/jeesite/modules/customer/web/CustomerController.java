@@ -6,6 +6,10 @@ package com.jeesite.modules.customer.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.jeesite.modules.car.entity.CarType;
+import com.jeesite.modules.car.service.CarTypeService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,10 +26,13 @@ import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.customer.entity.Customer;
 import com.jeesite.modules.customer.service.CustomerService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 客户表Controller
  * @author pengxincheng
- * @version 2019-06-16
+ * @version 2019-06-18
  */
 @Controller
 @RequestMapping(value = "${adminPath}/customer/customer")
@@ -33,6 +40,8 @@ public class CustomerController extends BaseController {
 
 	@Autowired
 	private CustomerService customerService;
+	@Autowired
+	private CarTypeService carTypeService;
 	
 	/**
 	 * 获取数据
@@ -70,7 +79,9 @@ public class CustomerController extends BaseController {
 	@RequiresPermissions("customer:customer:view")
 	@RequestMapping(value = "form")
 	public String form(Customer customer, Model model) {
+		List<CarType> carTypeList = carTypeService.findList(new CarType());
 		model.addAttribute("customer", customer);
+		model.addAttribute("carTypeList", carTypeList);
 		return "modules/customer/customerForm";
 	}
 

@@ -10,7 +10,7 @@ import com.jeesite.modules.customer.entity.Customer;
 /**
  * 客户表DAO接口
  * @author pengxincheng
- * @version 2019-06-16
+ * @version 2019-06-18
  */
 @MyBatisDao
 public interface CustomerDao extends CrudDao<Customer> {

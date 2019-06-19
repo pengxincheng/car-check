@@ -15,14 +15,14 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 /**
  * 客户表Entity
  * @author pengxincheng
- * @version 2019-06-16
+ * @version 2019-06-18
  */
 @Table(name="customer", alias="a", columns={
 		@Column(name="id", attrName="id", label="id", isPK=true),
 		@Column(name="name", attrName="name", label="客户名称", queryType=QueryType.LIKE),
 		@Column(name="plate_number", attrName="plateNumber", label="车牌号"),
 		@Column(name="address", attrName="address", label="客户地址", isQuery=false),
-		@Column(name="car_type_id", attrName="carTypeId", label="车型"),
+		@Column(name="car_type", attrName="carType", label="车型"),
 		@Column(name="phone_number", attrName="phoneNumber", label="联系电话"),
 		@Column(includeEntity=DataEntity.class),
 	}, orderBy="a.update_date DESC"
@@ -33,7 +33,7 @@ public class Customer extends DataEntity<Customer> {
 	private String name;		// 客户名称
 	private String plateNumber;		// 车牌号
 	private String address;		// 客户地址
-	private String carTypeId;		// 车型
+	private String carType;		// 车型
 	private Long phoneNumber;		// 联系电话
 	
 	public Customer() {
@@ -73,14 +73,13 @@ public class Customer extends DataEntity<Customer> {
 		this.address = address;
 	}
 	
-	@NotBlank(message="车型不能为空")
 	@Length(min=0, max=64, message="车型长度不能超过 64 个字符")
-	public String getCarTypeId() {
-		return carTypeId;
+	public String getCarType() {
+		return carType;
 	}
 
-	public void setCarTypeId(String carTypeId) {
-		this.carTypeId = carTypeId;
+	public void setCarType(String carType) {
+		this.carType = carType;
 	}
 	
 	@NotNull(message="联系电话不能为空")

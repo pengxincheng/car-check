@@ -27,8 +27,8 @@
 		<eclipse-plugin-download-javadocs>false</eclipse-plugin-download-javadocs>
 		
 		<!-- docker service -->
-		<docker.registryUrl>http://192.168.56.102:2375</docker.registryUrl>
-		<docker.imageName>${project.groupId}/${project.artifactId}:4.1</docker.imageName>
+		<!--<docker.registryUrl>http://192.168.56.102:2375</docker.registryUrl>
+		<docker.imageName>${project.groupId}/${project.artifactId}:4.1</docker.imageName>-->
 		
 	</properties>
 
@@ -122,13 +122,27 @@
 					<jeeversion>6.0</jeeversion>
 				</configuration>
 			</plugin>-->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<doclint>none</doclint>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			
 		</plugins>
 	</build>
-	
-	<profiles>
-	</profiles>
-	
+
 	<developers>  
 		<developer>
 			<id>thinkgem</id>
