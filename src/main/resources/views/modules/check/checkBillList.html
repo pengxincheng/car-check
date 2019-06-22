@@ -1,0 +1,98 @@
+<% layout('/layouts/default.html', {title: '检测单表管理', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-header">
+			<div class="box-title">
+				<i class="fa fa-list-alt"></i> ${text('检测单表管理')}
+			</div>
+			<div class="box-tools pull-right">
+				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
+				<% if(hasPermi('check:checkBill:edit')){ %>
+					<a href="${ctx}/check/checkBill/form" class="btn btn-default btnTool" title="${text('新增检测单表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+				<% } %>
+			</div>
+		</div>
+		<div class="box-body">
+			<#form:form id="searchForm" model="${checkBill}" action="${ctx}/check/checkBill/listData" method="post" class="form-inline hide"
+					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+				<div class="form-group">
+					<label class="control-label">${text('检测单号')}：</label>
+					<div class="control-inline">
+						<#form:input path="billId" maxlength="64" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('检测时间')}：</label>
+					<div class="control-inline">
+						<#form:input path="checkTime_gte" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false,onpicked:function(){checkTime_lte.click()}});"/>
+						&nbsp;--&nbsp;
+						<#form:input path="checkTime_lte" readonly="true" maxlength="20" class="form-control Wdate-datetime"
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车牌号')}：</label>
+					<div class="control-inline">
+						<#form:input path="plateNumber" maxlength="20" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('客户编号')}：</label>
+					<div class="control-inline">
+						<#form:input path="customerId" maxlength="64" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('客户名称')}：</label>
+					<div class="control-inline">
+						<#form:input path="customerName" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label">${text('车型')}：</label>
+					<div class="control-inline">
+						<#form:input path="carType" maxlength="100" class="form-control width-120"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-sm">${text('查询')}</button>
+					<button type="reset" class="btn btn-default btn-sm">${text('重置')}</button>
+				</div>
+			</#form:form>
+			<table id="dataGrid"></table>
+			<div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+// 初始化DataGrid对象
+$('#dataGrid').dataGrid({
+	searchForm: $("#searchForm"),
+	columnModel: [
+		{header:'${text("检测单号")}', name:'billId', index:'a.bill_id', width:150, align:"left", frozen:true, formatter: function(val, obj, row, act){
+			return '<a href="${ctx}/check/checkBill/form?id='+row.id+'" class="btnList" data-title="${text("编辑检测单表")}">'+(val||row.id)+'</a>';
+		}},
+		{header:'${text("检测时间")}', name:'checkTime', index:'a.check_time', width:150, align:"center"},
+		{header:'${text("车牌号")}', name:'plateNumber', index:'a.plate_number', width:150, align:"left"},
+		{header:'${text("客户编号")}', name:'customerId', index:'a.customer_id', width:150, align:"left"},
+		{header:'${text("客户名称")}', name:'customerName', index:'a.customer_name', width:150, align:"left"},
+		{header:'${text("联系方式")}', name:'customerPhoneNumber', index:'a.customer_phone_number', width:150, align:"center"},
+		{header:'${text("客户地址")}', name:'customerAddress', index:'a.customer_address', width:150, align:"left"},
+		{header:'${text("车型")}', name:'carType', index:'a.car_type', width:150, align:"left"},
+		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
+			var actions = [];
+			<% if(hasPermi('check:checkBill:edit')){ %>
+				actions.push('<a href="${ctx}/check/checkBill/form?id='+row.id+'" class="btnList" title="${text("编辑检测单表")}"><i class="fa fa-pencil"></i></a>&nbsp;');
+				actions.push('<a href="${ctx}/check/checkBill/delete?id='+row.id+'" class="btnList" title="${text("删除检测单表")}" data-confirm="${text("确认要删除该检测单表吗？")}"><i class="fa fa-trash-o"></i></a>&nbsp;');
+			<% } %>
+			return actions.join('');
+		}}
+	],
+	// 加载成功后执行事件
+	ajaxSuccess: function(data){
+		
+	}
+});
+</script>
