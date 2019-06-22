@@ -3,13 +3,13 @@
  */
 package com.jeesite.modules.customer.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.jeesite.common.config.Global;
+import com.jeesite.common.entity.Page;
+import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.car.entity.CarType;
 import com.jeesite.modules.car.service.CarTypeService;
+import com.jeesite.modules.customer.entity.Customer;
+import com.jeesite.modules.customer.service.CustomerService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,13 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jeesite.common.config.Global;
-import com.jeesite.common.entity.Page;
-import com.jeesite.common.web.BaseController;
-import com.jeesite.modules.customer.entity.Customer;
-import com.jeesite.modules.customer.service.CustomerService;
-
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -105,6 +100,22 @@ public class CustomerController extends BaseController {
 	public String delete(Customer customer) {
 		customerService.delete(customer);
 		return renderResult(Global.TRUE, text("删除客户表成功！"));
+	}
+
+	/**
+	 * 根据车牌查询
+	 */
+	@RequiresPermissions("customer:customer:getByPlateNum")
+	@RequestMapping(value = "getByPlateNum")
+	@ResponseBody
+	public String getByPlateNum(Customer customer) {
+		List<Customer> customers = customerService.findList(customer);
+		if (null != customers && customers.size() > 0) {
+			return renderResult(Global.TRUE, text("根据车牌号查询成功"), customers.get(0));
+		}else {
+			return renderResult(Global.FALSE,text("客户不存在请先添加"));
+		}
+
 	}
 	
 }
