@@ -38,7 +38,7 @@ jdbc:
   driver: com.mysql.jdbc.Driver
   url: jdbc:mysql://127.0.0.1:3306/jeesite?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
   username: root
-  password: 123456
+  password: e34574805a857298eeb14b4a2c30fe9d
   testSql: SELECT 1
 
 #  # 数据库连接池配置
