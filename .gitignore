@@ -48,4 +48,4 @@ hs_err_pid*
 /dist/
 /nbdist/
 /.nb-gradle/
-/WEB_INF/classes
+**/WEB-INF/classes
