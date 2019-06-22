@@ -28,7 +28,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required ">*</span> ${text('车牌号')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input id="plateNumber" path="plateNumber" maxlength="20" class="form-control required"/>
+								<#form:input id="plateNumber" path="plateNumber" maxlength="20" class="form-control required carNumber"/>
 							</div>
 						</div>
 					</div>
@@ -59,7 +59,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required hide">*</span> ${text('联系方式')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input id="customerPhoneNumber" readonly="true" path="customerPhoneNumber" maxlength="20" class="form-control digits"/>
+								<#form:input id="customerPhoneNumber" readonly="true" path="customerPhoneNumber" maxlength="20" class="form-control mobile"/>
 							</div>
 						</div>
 					</div>
@@ -187,6 +187,7 @@ $("#inputForm").validate({
 
 $("#plateNumber").blur(function () {
 	var plateNum = $("#plateNumber").val();
+	if(plateNum === '') return;
 	js.ajaxSubmit('${ctx}/customer/customer/getByPlateNum', {"plateNumber":plateNum}, function(data){
 		if(data.result == 'true'){
 			$("#customerId").val(data.data.id);
@@ -195,12 +196,13 @@ $("#plateNumber").blur(function () {
 			$("#customerAddress").val(data.data.address);
 			$("#carType").val(data.data.carType);
 		}else {
-			layer.open({
+            alert('客户不存在，请先添加客户');
+            layer.open({
 				type: 2,
 				title: '新增客户',
 				maxmin: true,
 				area: ['800px', '500px'],
-				content: '${ctx}/customer/customer/form',
+                content: '${ctx}/customer/customer/form?plateNumber=' + plateNum,
 				end: function(){
 
 				}
