@@ -9,6 +9,7 @@
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 			</div>
 		</div>
+		<input type="hidden" id="itemData" value=""/>
 		<#form:form id="inputForm" model="${checkBill}" action="${ctx}/check/checkBill/save" method="post" class="form-horizontal">
 			<div class="box-body">
 				<div class="form-unit">${text('基本信息')}</div>
@@ -88,7 +89,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required ">*</span> ${text('应收金额')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input path="totalAmt" class="form-control required number"/>
+								<#form:input id="totalAmt" path="totalAmt" class="form-control required number"/>
 							</div>
 						</div>
 					</div>
@@ -140,16 +141,16 @@ $("#checkBillItemDataGrid").dataGrid({
 		{header:'状态', name:'status', editable:true, hidden:true},
 		{header:'主键', name:'id', editable:true, hidden:true},
 		{header:'${text("维修单编号")}', name:'billId.id', editable:true, hidden:true},
-		{header:'${text("收费项目")}', name:'itemName', width:150, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'}},
+		{header:'${text("收费项目")}', name:'itemName', width:150, editable:true, edittype:'text', editoptions:{'maxlength':'200', 'class':'form-control'},readonly:true},
 		{header:'${text("项目编号")}', name:'itemId', width:150, editable:true, edittype:'text', editoptions:{'maxlength':'64', 'class':'form-control'}},
 		{header:'${text("数量")}', name:'num', width:150, editable:true, edittype:'text', editoptions:{'maxlength':'11', 'class':'form-control digits'}},
 		{header:'${text("价格")}', name:'price', width:150, editable:true, edittype:'text', editoptions:{'class':'form-control number'}},
 		{header:'${text("操作")}', name:'actions', width:80, sortable:false, fixed:true, formatter: function(val, obj, row, act){
 			var actions = [];
 			if (val == 'new'){
-				actions.push('<a href="#" onclick="js.confirm(\'${text("你确认要删除这条数据吗？")}\', function(){$(\'#checkBillItemDataGrid\').dataGrid(\'delRowData\',\''+obj.rowId+'\')});return false;"><i class="fa fa-trash-o"></i></a>&nbsp;');
+				actions.push('<a href="#" onclick="js.confirm(\'${text("你确认要删除这条数据吗？")}\', function(){reducePrice(\''+obj.rowId+'\');$(\'#checkBillItemDataGrid\').dataGrid(\'delRowData\',\''+obj.rowId+'\');});return false;"><i class="fa fa-trash-o"></i></a>&nbsp;');
 			}else{
-				actions.push('<a href="#" onclick="js.confirm(\'${text("你确认要删除这条数据吗？")}\', function(){$(\'#checkBillItemDataGrid\').dataGrid(\'setRowData\',\''+obj.rowId+'\',null,{display:\'none\'});$(\'#'+obj.rowId+'_status\').val(\''+Global.STATUS_DELETE+'\');});return false;"><i class="fa fa-trash-o"></i></a>&nbsp;');
+				actions.push('<a href="#" onclick="js.confirm(\'${text("你确认要删除这条数据吗？")}\', function(){reducePrice(\''+obj.rowId+'\');$(\'#checkBillItemDataGrid\').dataGrid(\'setRowData\',\''+obj.rowId+'\',null,{display:\'none\'});$(\'#'+obj.rowId+'_status\').val(\''+Global.STATUS_DELETE+'\');});return false;"><i class="fa fa-trash-o"></i></a>&nbsp;');
 			}
 			return actions.join('');
 		}, editoptions: {defaultValue: 'new'}}
@@ -157,15 +158,15 @@ $("#checkBillItemDataGrid").dataGrid({
 	
 	// 编辑表格参数
 	editGrid: true,				// 是否是编辑表格
-	editGridInitRowNum: 1,		// 编辑表格的初始化新增行数
-	editGridAddRowBtn: $('#checkBillItemDataGridAddRowBtn'),	// 子表增行按钮
-	editGridAddRowInitData: {id: '', status: Global.STATUS_NORMAL},	// 新增行的时候初始化的数据
+	editGridInitRowNum: 0,		// 编辑表格的初始化新增行数
+
 	
 	// 编辑表格的提交数据参数
 	editGridInputFormListName: 'checkBillItemList', // 提交的数据列表名
 	editGridInputFormListAttrs: 'status,id,billId.id,itemName,itemId,num,price,', // 提交数据列表的属性字段
-	
-	// 加载成功后执行事件
+
+
+		// 加载成功后执行事件
 	ajaxSuccess: function(data){
 		
 	}
@@ -211,6 +212,71 @@ $("#plateNumber").blur(function () {
 	});
 });
 
+$("#checkBillItemDataGridAddRowBtn").click(function () {
+	layer.open({
+		btn: ['关闭'],
+		type: 2,
+		title: '新增客户',
+		maxmin: true,
+		area: ['800px', '500px'],
+		content: '${ctx}/charging/chargingItems/listForSelect',
+		end: function () {
+			var item = $('#itemData').val()
+			var itemJson = JSON.parse(item);
+			var rowId = $("#checkBillItemDataGrid").jqGrid('getGridParam', 'selrow');
+
+			var itemName_element = getElement(rowId,'itemName');
+			$(itemName_element).val(itemJson.itemName);
+			$(itemName_element).attr('readonly','readonly');
 
 
+			var itemId_element = getElement(rowId,'itemId');
+			$(itemId_element).val(itemJson.id);
+			$(itemId_element).attr('readonly','readonly');
+
+			var num_element = getElement(rowId,'num');
+			$(num_element).val(itemJson.num);
+			$(num_element).attr('readonly','readonly');
+
+			var price_element = getElement(rowId,'price');
+			$(price_element).val(itemJson.price)
+			$(price_element).attr('readonly','readonly');
+
+			addPrice(itemJson.price);
+		},
+	});
+});
+
+function getElement(rowId, property) {
+	return '#' + rowId + '_' + property;
+}
+
+function addPrice(p) {
+	var tmpPrice = Number(p);
+	var totalAmt = $('#totalAmt').val();
+	if (totalAmt != '') {
+		var tmp = Number(totalAmt);
+		totalAmt = tmp + tmpPrice;
+	} else {
+		totalAmt = tmpPrice;
+	}
+	totalAmt.toFixed(2);
+	$('#totalAmt').val(totalAmt);
+}
+
+function reducePrice(rowId) {
+	var ele = getElement(rowId,'price');
+	var p = $(ele).val();
+
+	var tmpPrice = Number(p);
+	var totalAmt = $('#totalAmt').val();
+	if (totalAmt != '') {
+		var tmp = Number(totalAmt);
+		totalAmt = tmp - tmpPrice;
+	} else {
+		totalAmt = tmpPrice;
+	}
+	totalAmt.toFixed(2);
+	$('#totalAmt').val(totalAmt);
+}
 </script>

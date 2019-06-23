@@ -1,0 +1,74 @@
+<% layout('/layouts/default.html', {title: '用户选择', libs: ['dataGrid']}){ %>
+<div class="main-content">
+	<div class="box box-main">
+		<div class="box-body">
+			<#form:form id="searchForm" model="${chargingItems}" action="${ctx}/charging/chargingItems/listData" method="post" class="form-inline"
+			data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
+			<div class="form-group">
+				<label class="control-label">${text('项目名称')}：</label>
+				<div class="control-inline">
+					<#form:input path="itemName" maxlength="100" class="form-control width-120"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('数量')}：</label>
+				<div class="control-inline">
+					<#form:input path="num" maxlength="11" class="form-control width-120"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">${text('金额')}：</label>
+				<div class="control-inline">
+					<#form:input path="price" class="form-control width-120"/>
+				</div>
+			</div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-sm">查询</button>
+                <button type="reset" class="btn btn-default btn-sm">重置</button>
+            </div>
+			</#form:form>
+
+		    <table id="dataGrid"></table>
+		    <div id="dataGridPage"></div>
+		</div>
+	</div>
+</div>
+<% } %>
+<script>
+    // 初始化DataGrid对象
+    $('#dataGrid').dataGrid({
+        searchForm: $("#searchForm"),
+        columnModel: [
+            {header:'${text("项目名称")}', name:'itemName', index:'a.item_name', width:150, align:"center", frozen:true,},
+			{header:'${text("项目编号")}', name:'id', index:'a.id', width:150, align:"center", frozen:true,},
+            {header:'${text("数量")}', name:'num', index:'a.num', width:150, align:"center"},
+            {header:'${text("金额")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
+                    return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
+                }},
+            {header:'${text("状态")}', name:'status', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
+                    return js.getDictLabel(${@DictUtils.getDictListJson('sys_search_status')}, val, '${text("未知")}', true);
+                }},
+            {header:'${text("更新时间")}', name:'updateDate', index:'a.update_date', width:150, align:"center"},
+            {header:'${text("备注信息")}', name:'remarks', index:'a.remarks', width:150, align:"left"}
+
+        ],
+		showCheckbox: false,
+		showRownum: false,
+        // 加载成功后执行事件
+        ajaxSuccess: function(data){
+
+        },
+		// 双击表格行时调用（id：双击的行号，rownum：双击的行位置，column：双击的列）
+		ondblClickRow: function(id, rownum, colnum, event){
+
+			var data = $('#dataGrid').dataGrid('getRowData', id);
+			var stringData = JSON.stringify(data)
+			//注意：parent 是 JS 自带的全局对象，可用于操作父页面
+			parent.$('#itemData').val(stringData);
+			var index=parent.layer.getFrameIndex(window.name);
+
+			parent.layer.close(index);
+		},
+    });
+</script>

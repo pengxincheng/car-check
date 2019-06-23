@@ -51,6 +51,16 @@ public class ChargingItemsController extends BaseController {
 		model.addAttribute("chargingItems", chargingItems);
 		return "modules/charging/chargingItemsList";
 	}
+
+	/**
+	 * 查询列表
+	 */
+	@RequiresPermissions("charging:chargingItems:view")
+	@RequestMapping(value = {"listForSelect", ""})
+	public String listForSelect(ChargingItems chargingItems, Model model) {
+		model.addAttribute("chargingItems", chargingItems);
+		return "modules/charging/chargingItemSelect";
+	}
 	
 	/**
 	 * 查询列表数据
