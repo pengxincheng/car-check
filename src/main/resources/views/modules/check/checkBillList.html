@@ -8,8 +8,10 @@
 			<div class="box-tools pull-right">
 				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
 				<% if(hasPermi('check:checkBill:edit')){ %>
-					<a href="${ctx}/check/checkBill/form" class="btn btn-default btnTool" title="${text('新增检测单表')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
+					<a href="${ctx}/check/checkBill/form" class="btn btn-default btnTool" title="${text('新增检测单')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
 				<% } %>
+
+				<button id="exportButton" class="btn btn-primary" title="${text('导出检测单')}"><i class="fa"></i> ${text('导出')}</button>
 			</div>
 		</div>
 		<div class="box-body">
@@ -75,12 +77,12 @@ $('#dataGrid').dataGrid({
 			return '<a href="${ctx}/check/checkBill/form?id='+row.id+'" class="btnList" data-title="${text("编辑检测单表")}">'+(val||row.id)+'</a>';
 		}},
 		{header:'${text("检测时间")}', name:'checkTime', index:'a.check_time', width:150, align:"center"},
-		{header:'${text("车牌号")}', name:'plateNumber', index:'a.plate_number', width:150, align:"left"},
-		{header:'${text("客户编号")}', name:'customerId', index:'a.customer_id', width:150, align:"left"},
-		{header:'${text("客户名称")}', name:'customerName', index:'a.customer_name', width:150, align:"left"},
+		{header:'${text("车牌号")}', name:'plateNumber', index:'a.plate_number', width:150, align:"center"},
+		{header:'${text("客户编号")}', name:'customerId', index:'a.customer_id', width:150, align:"center"},
+		{header:'${text("客户名称")}', name:'customerName', index:'a.customer_name', width:150, align:"center"},
 		{header:'${text("联系方式")}', name:'customerPhoneNumber', index:'a.customer_phone_number', width:150, align:"center"},
 		{header:'${text("客户地址")}', name:'customerAddress', index:'a.customer_address', width:150, align:"left"},
-		{header:'${text("车型")}', name:'carType', index:'a.car_type', width:150, align:"left"},
+		{header:'${text("车型")}', name:'carType', index:'a.car_type', width:150, align:"center"},
 		{header:'${text("操作")}', name:'actions', width:120, sortable:false, title:false, formatter: function(val, obj, row, act){
 			var actions = [];
 			<% if(hasPermi('check:checkBill:edit')){ %>
@@ -94,5 +96,13 @@ $('#dataGrid').dataGrid({
 	ajaxSuccess: function(data){
 		
 	}
+});
+
+$('#exportButton').click(function () {
+	var param = $("#searchForm").serialize();
+    log(param);
+
+    window.location.href="${ctx}/check/checkBill/export/excel?"+param;
+
 });
 </script>
