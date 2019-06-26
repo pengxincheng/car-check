@@ -80,7 +80,7 @@ public class CheckBillController extends BaseController {
     }
 
     /**
-     * 查看编辑表单
+     * 编辑表单
      */
     @RequiresPermissions("check:checkBill:view")
     @RequestMapping(value = "form")
@@ -89,6 +89,16 @@ public class CheckBillController extends BaseController {
         checkBill.setBillId(CheckBillIdGenerator.getNextId(count.intValue()));
         model.addAttribute("checkBill", checkBill);
         return "modules/check/checkBillForm";
+    }
+
+    /**
+     * 查看表单
+     */
+    @RequiresPermissions("check:checkBill:view")
+    @RequestMapping(value = "detail")
+    public String detail(CheckBill checkBill, Model model) {
+        model.addAttribute("checkBill", checkBill);
+        return "modules/check/checkBillDetail";
     }
 
     /**
