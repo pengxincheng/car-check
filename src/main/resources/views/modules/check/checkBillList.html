@@ -85,7 +85,7 @@ $('#dataGrid').dataGrid({
 			var actions = [];
 			<% if(hasPermi('check:checkBill:edit')){ %>
 				actions.push('<a href="${ctx}/check/checkBill/detail?id='+row.id+'" class="btnList btn btn-success btn-sm" title="${text("详情")}">详情</a>&nbsp;');
-				actions.push('<button onclick="tuidan('+row.id+')" class="btnList btn-danger btn btn-sm " title="${text("退单")}"> 退单 </button>&nbsp;');
+				actions.push('<button id="qq" onclick="tuidan()" value="'+row.id+'" class="btn-danger btn btn-sm " title="${text("退单")}"> 退单 </button>&nbsp;');
 			<% } %>
 			return actions.join('');
 		}}
@@ -102,8 +102,13 @@ $('#exportButton').click(function () {
 
 });
 
-function tuidan(id) {
-	log(id);
+function tuidan() {
+	var checkBillId = $("#qq").val()
+	js.ajaxSubmit("${ctx}/check/checkBill/refund",{checkBillId:checkBillId},function (data) {
+		log(data);
+	})
+
+
 }
 
 

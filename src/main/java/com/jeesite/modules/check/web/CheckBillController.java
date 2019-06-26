@@ -15,6 +15,7 @@ import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
 import com.jeesite.modules.utils.CheckBillIdGenerator;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -138,8 +139,8 @@ public class CheckBillController extends BaseController {
                     if (CollectionUtils.isNotEmpty(checkBillItems)) {
                         checkBillItems.forEach(cbi -> {
                             CheckBillExcelModel excelModel = new CheckBillExcelModel();
-                            BeanUtils.copyProperties(cb,excelModel);
-                            BeanUtils.copyProperties(cbi,excelModel);
+                            BeanUtils.copyProperties(cb, excelModel);
+                            BeanUtils.copyProperties(cbi, excelModel);
                             checkBillExcelModels.add(excelModel);
                         });
                     }
@@ -161,5 +162,28 @@ public class CheckBillController extends BaseController {
         } catch (Exception e) {
 
         }
+    }
+
+    @RequestMapping("/refund")
+    @ResponseBody
+    public String refundBill(@Param("checkBillId") String checkBillId) {
+        CheckBill checkBill = checkBillService.get(new CheckBill(checkBillId));
+
+        //status 1代表已经退过单了  2表示是负单不能退
+
+        Long count = checkBillService.findCount(new CheckBill());
+        checkBill.setBillId(CheckBillIdGenerator.getNextId(count.intValue()));
+        checkBill.setId(null);
+        checkBill.setTotalAmt(checkBill.getTotalAmt() * -1);
+
+        checkBill.getCheckBillItemList().forEach(c -> {
+            c.setBillId(checkBill);
+            c.setPrice(c.getPrice() * -1);
+        });
+
+
+        checkBillService.save(checkBill);
+
+        return renderResult(Global.TRUE, text("退单成功！"));
     }
 }
