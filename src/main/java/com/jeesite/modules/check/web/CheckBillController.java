@@ -13,7 +13,9 @@ import com.alibaba.excel.support.ExcelTypeEnum;
 import com.jeesite.modules.check.bo.CheckBillExcelModel;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
+import com.jeesite.modules.enums.BillTypeEnum;
 import com.jeesite.modules.utils.CheckBillIdGenerator;
+import com.jeesite.modules.utils.DateUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -152,14 +154,14 @@ public class CheckBillController extends BaseController {
             response.setCharacterEncoding("utf-8");
             response.setHeader("Content-disposition", "attachment;filename=" + "test" + ".xlsx");
             ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX, true);
-            String fileName = new String(("UserInfo " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
-                    .getBytes(), "UTF-8");
             Sheet sheet1 = new Sheet(1, 0, CheckBillExcelModel.class);
             sheet1.setSheetName("第一个sheet");
             writer.write(checkBillExcelModels, sheet1);
             writer.finish();
             out.flush();
         } catch (Exception e) {
+
+        } finally {
 
         }
     }
@@ -169,20 +171,15 @@ public class CheckBillController extends BaseController {
     public String refundBill(@Param("checkBillId") String checkBillId) {
         CheckBill checkBill = checkBillService.get(new CheckBill(checkBillId));
 
-        //status 1代表已经退过单了  2表示是负单不能退
+        if (checkBill.getBillType() == BillTypeEnum.REFUND_BILL.getCode()) {
+            return renderResult(Global.FALSE, text("该单为负单，不能在退"));
+        }
 
-        Long count = checkBillService.findCount(new CheckBill());
-        checkBill.setBillId(CheckBillIdGenerator.getNextId(count.intValue()));
-        checkBill.setId(null);
-        checkBill.setTotalAmt(checkBill.getTotalAmt() * -1);
+        if (checkBill.getBillType() == BillTypeEnum.HAS_REFUNDED.getCode()) {
+            return renderResult(Global.FALSE, "该单已经退过单，不能在退");
+        }
 
-        checkBill.getCheckBillItemList().forEach(c -> {
-            c.setBillId(checkBill);
-            c.setPrice(c.getPrice() * -1);
-        });
-
-
-        checkBillService.save(checkBill);
+        checkBillService.refundBill(checkBill);
 
         return renderResult(Global.TRUE, text("退单成功！"));
     }

@@ -1,12 +1,11 @@
-<% layout('/layouts/default.html', {title: '检测单表管理', libs: ['dataGrid']}){ %>
+<% layout('/layouts/default.html', {title: '检测单管理', libs: ['dataGrid']}){ %>
 <div class="main-content">
 	<div class="box box-main">
 		<div class="box-header">
 			<div class="box-title">
-				<i class="fa fa-list-alt"></i> ${text('检测单表管理')}
+				<i class="fa fa-list-alt"></i> ${text('检测单管理')}
 			</div>
 			<div class="box-tools pull-right">
-				<a href="#" class="btn btn-default" id="btnSearch" title="${text('查询')}"><i class="fa fa-filter"></i> ${text('查询')}</a>
 				<% if(hasPermi('check:checkBill:edit')){ %>
 					<a href="${ctx}/check/checkBill/form" class="btn btn-default btnTool" title="${text('新增检测单')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
 				<% } %>
@@ -15,7 +14,7 @@
 			</div>
 		</div>
 		<div class="box-body">
-			<#form:form id="searchForm" model="${checkBill}" action="${ctx}/check/checkBill/listData" method="post" class="form-inline hide"
+			<#form:form id="searchForm" model="${checkBill}" action="${ctx}/check/checkBill/listData" method="post" class="form-inline "
 					data-page-no="${parameter.pageNo}" data-page-size="${parameter.pageSize}" data-order-by="${parameter.orderBy}">
 				<div class="form-group">
 					<label class="control-label">${text('检测单号')}：</label>
@@ -27,10 +26,10 @@
 					<label class="control-label">${text('检测时间')}：</label>
 					<div class="control-inline">
 						<#form:input path="checkTime_gte" readonly="true" maxlength="20" class="form-control Wdate-datetime"
-							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false,onpicked:function(){checkTime_lte.click()}});"/>
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false,onpicked:function(){checkTime_lte.click()}});"/>
 						&nbsp;--&nbsp;
 						<#form:input path="checkTime_lte" readonly="true" maxlength="20" class="form-control Wdate-datetime"
-							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm',isShowClear:false});"/>
+							dataFormat="datetime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -40,21 +39,9 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="control-label">${text('客户编号')}：</label>
-					<div class="control-inline">
-						<#form:input path="customerId" maxlength="64" class="form-control width-120"/>
-					</div>
-				</div>
-				<div class="form-group">
 					<label class="control-label">${text('客户名称')}：</label>
 					<div class="control-inline">
 						<#form:input path="customerName" maxlength="100" class="form-control width-120"/>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label">${text('车型')}：</label>
-					<div class="control-inline">
-						<#form:input path="carType" maxlength="100" class="form-control width-120"/>
 					</div>
 				</div>
 				<div class="form-group">
@@ -85,7 +72,7 @@ $('#dataGrid').dataGrid({
 			var actions = [];
 			<% if(hasPermi('check:checkBill:edit')){ %>
 				actions.push('<a href="${ctx}/check/checkBill/detail?id='+row.id+'" class="btnList btn btn-success btn-sm" title="${text("详情")}">详情</a>&nbsp;');
-				actions.push('<button id="qq" onclick="tuidan()" value="'+row.id+'" class="btn-danger btn btn-sm " title="${text("退单")}"> 退单 </button>&nbsp;');
+				actions.push('<button id="qq" onclick="tuidan(this)" value="'+row.id+'" class="btn-danger btn btn-sm " title="${text("退单")}"> 退单 </button>&nbsp;');
 			<% } %>
 			return actions.join('');
 		}}
@@ -102,10 +89,17 @@ $('#exportButton').click(function () {
 
 });
 
-function tuidan() {
-	var checkBillId = $("#qq").val()
+function tuidan(obj) {
+	log(obj)
+	var checkBillId = obj.value;
 	js.ajaxSubmit("${ctx}/check/checkBill/refund",{checkBillId:checkBillId},function (data) {
-		log(data);
+		if(data.result == 'true'){
+			js.alert(data.message, null, function () {
+				$('#dataGrid').dataGrid('reloadGrid');
+			});
+		}else {
+			js.alert(data.message)
+		}
 	})
 
 

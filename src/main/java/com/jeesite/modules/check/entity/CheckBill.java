@@ -4,6 +4,8 @@
 package com.jeesite.modules.check.entity;
 
 import javax.validation.constraints.NotBlank;
+
+import com.jeesite.modules.utils.DateUtils;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.jeesite.common.mybatis.annotation.JoinTable;
@@ -34,8 +36,10 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="customer_address", attrName="customerAddress", label="客户地址", isQuery=false),
 		@Column(name="car_type", attrName="carType", label="车型"),
 		@Column(name="total_amt", attrName="totalAmt", label="应收金额", isQuery=false),
+		@Column(name="bill_type", attrName="billType", label="检测单类型", isQuery=false),
+		@Column(name="ori_bill_id", attrName="oriBillId", label="原单号", isQuery=false),
 		@Column(includeEntity=DataEntity.class),
-	}, orderBy="a.update_date DESC"
+	}, orderBy="a.check_time DESC"
 )
 public class CheckBill extends DataEntity<CheckBill> {
 	
@@ -49,6 +53,8 @@ public class CheckBill extends DataEntity<CheckBill> {
 	private String customerAddress;		// 客户地址
 	private String carType;		// 车型
 	private Double totalAmt;		// 应收金额
+	private int billType;
+	private String oriBillId;
 	private List<CheckBillItem> checkBillItemList = ListUtils.newArrayList();		// 子表列表
 	
 	public CheckBill() {
@@ -156,7 +162,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	}
 
 	public void setCheckTime_lte(Date checkTime) {
-		sqlMap.getWhere().and("check_time", QueryType.LTE, checkTime);
+		sqlMap.getWhere().and("check_time", QueryType.LTE, DateUtils.getMaxDateOfDay(checkTime));
 	}
 	
 	public List<CheckBillItem> getCheckBillItemList() {
@@ -166,5 +172,20 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCheckBillItemList(List<CheckBillItem> checkBillItemList) {
 		this.checkBillItemList = checkBillItemList;
 	}
-	
+
+	public int getBillType() {
+		return billType;
+	}
+
+	public void setBillType(int billType) {
+		this.billType = billType;
+	}
+
+	public String getOriBillId() {
+		return oriBillId;
+	}
+
+	public void setOriBillId(String oriBillId) {
+		this.oriBillId = oriBillId;
+	}
 }
