@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * 客户表Controller
+ * 客户Controller
  * @author pengxincheng
  * @version 2019-06-18
  */
@@ -57,7 +57,7 @@ public class CustomerController extends BaseController {
 	}
 	
 	/**
-	 * 查询列表数据
+	 * 查询列数据
 	 */
 	@RequiresPermissions("customer:customer:view")
 	@RequestMapping(value = "listData")

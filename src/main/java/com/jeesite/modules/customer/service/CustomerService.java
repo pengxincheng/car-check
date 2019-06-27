@@ -14,7 +14,7 @@ import com.jeesite.modules.customer.entity.Customer;
 import com.jeesite.modules.customer.dao.CustomerDao;
 
 /**
- * 客户表Service
+ * 客户Service
  * @author pengxincheng
  * @version 2019-06-18
  */

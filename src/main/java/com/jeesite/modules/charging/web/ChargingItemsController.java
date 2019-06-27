@@ -23,7 +23,7 @@ import com.jeesite.modules.charging.entity.ChargingItems;
 import com.jeesite.modules.charging.service.ChargingItemsService;
 
 /**
- * 检查项目表Controller
+ * 检查项目Controller
  * @author pengxincheng
  * @version 2019-06-16
  */
@@ -43,7 +43,7 @@ public class ChargingItemsController extends BaseController {
 	}
 	
 	/**
-	 * 查询列表
+	 * 查询列
 	 */
 	@RequiresPermissions("charging:chargingItems:view")
 	@RequestMapping(value = {"list", ""})
@@ -53,7 +53,7 @@ public class ChargingItemsController extends BaseController {
 	}
 
 	/**
-	 * 查询列表
+	 * 查询列
 	 */
 	@RequiresPermissions("charging:chargingItems:view")
 	@RequestMapping(value = {"listForSelect", ""})
@@ -63,7 +63,7 @@ public class ChargingItemsController extends BaseController {
 	}
 	
 	/**
-	 * 查询列表数据
+	 * 查询列数据
 	 */
 	@RequiresPermissions("charging:chargingItems:view")
 	@RequestMapping(value = "listData")
@@ -75,7 +75,7 @@ public class ChargingItemsController extends BaseController {
 	}
 
 	/**
-	 * 查看编辑表单
+	 * 查看编辑单
 	 */
 	@RequiresPermissions("charging:chargingItems:view")
 	@RequestMapping(value = "form")
@@ -85,25 +85,25 @@ public class ChargingItemsController extends BaseController {
 	}
 
 	/**
-	 * 保存检查项目表
+	 * 保存检查项目
 	 */
 	@RequiresPermissions("charging:chargingItems:edit")
 	@PostMapping(value = "save")
 	@ResponseBody
 	public String save(@Validated ChargingItems chargingItems) {
 		chargingItemsService.save(chargingItems);
-		return renderResult(Global.TRUE, text("保存检查项目表成功！"));
+		return renderResult(Global.TRUE, text("保存检查项目成功！"));
 	}
 	
 	/**
-	 * 删除检查项目表
+	 * 删除检查项目
 	 */
 	@RequiresPermissions("charging:chargingItems:edit")
 	@RequestMapping(value = "delete")
 	@ResponseBody
 	public String delete(ChargingItems chargingItems) {
 		chargingItemsService.delete(chargingItems);
-		return renderResult(Global.TRUE, text("删除检查项目表成功！"));
+		return renderResult(Global.TRUE, text("删除检查项目成功！"));
 	}
 	
 }

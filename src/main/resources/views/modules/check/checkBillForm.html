@@ -1,9 +1,9 @@
-<% layout('/layouts/default.html', {title: '检测单表管理', libs: ['validate','dataGrid']}){ %>
+<% layout('/layouts/default.html', {title: '检测单管理', libs: ['validate','dataGrid']}){ %>
 <div class="main-content">
 	<div class="box box-main">
 		<div class="box-header with-border">
 			<div class="box-title">
-				<i class="fa fa-list-alt"></i> ${text(checkBill.isNewRecord ? '新增检测单表' : '编辑检测单表')}
+				<i class="fa fa-list-alt"></i> ${text(checkBill.isNewRecord ? '新增检测单' : '编辑检测单')}
 			</div>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -105,7 +105,7 @@
 						</div>
 					</div>
 				</div>
-				<h4 class="form-unit">${text('检测项目选择表')}</h4>
+				<h4 class="form-unit">${text('检测项目选择')}</h4>
 				<div class="ml10 mr10">
 					<table id="checkBillItemDataGrid"></table>
 					<% if (hasPermi('check:checkBill:edit')){ %>
@@ -129,14 +129,14 @@
 <% } %>
 
 <script>
-//初始化检测项目选择表DataGrid对象
+//初始化检测项目选择DataGrid对象
 $("#checkBillItemDataGrid").dataGrid({
 
 	data: ${toJson(checkBill.checkBillItemList)},
 	datatype: "local", // 设置本地数据
 	autoGridHeight: function(){return 'auto'}, // 设置自动高度
 	
-	// 设置数据表格列
+	// 设置数据格列
 	columnModel: [
 		{header:'状态', name:'status', editable:true, hidden:true},
 		{header:'主键', name:'id', editable:true, hidden:true},
@@ -156,14 +156,14 @@ $("#checkBillItemDataGrid").dataGrid({
 		}, editoptions: {defaultValue: 'new'}}
 	],
 	
-	// 编辑表格参数
-	editGrid: true,				// 是否是编辑表格
-	editGridInitRowNum: 0,		// 编辑表格的初始化新增行数
+	// 编辑格参数
+	editGrid: true,				// 是否是编辑格
+	editGridInitRowNum: 0,		// 编辑格的初始化新增行数
 
 	
-	// 编辑表格的提交数据参数
-	editGridInputFormListName: 'checkBillItemList', // 提交的数据列表名
-	editGridInputFormListAttrs: 'status,id,billId.id,itemName,itemId,num,price,', // 提交数据列表的属性字段
+	// 编辑格的提交数据参数
+	editGridInputFormListName: 'checkBillItemList', // 提交的数据列名
+	editGridInputFormListAttrs: 'status,id,billId.id,itemName,itemId,num,price,', // 提交数据列的属性字段
 
 
 		// 加载成功后执行事件

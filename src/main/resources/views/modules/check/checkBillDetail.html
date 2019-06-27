@@ -1,9 +1,9 @@
-<% layout('/layouts/default.html', {title: '检测单表管理', libs: ['validate','dataGrid']}){ %>
+<% layout('/layouts/default.html', {title: '检测单管理', libs: ['validate','dataGrid']}){ %>
 <div class="main-content">
 	<div class="box box-main">
 		<div class="box-header with-border">
 			<div class="box-title">
-				<i class="fa fa-list-alt"></i> ${text(checkBill.isNewRecord ? '新增检测单表' : '编辑检测单表')}
+				<i class="fa fa-list-alt"></i> ${text(checkBill.isNewRecord ? '新增检测单' : '编辑检测单')}
 			</div>
 			<div class="box-tools pull-right">
 				<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -113,7 +113,7 @@
 				<div class="box-footer">
 					<div class="row">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('返回列表')}</button>
+							<button type="button" class="btn btn-sm btn-default" id="btnCancel" onclick="js.closeCurrentTabPage()"><i class="fa fa-reply-all"></i> ${text('返回列')}</button>
 						</div>
 					</div>
 				</div>
@@ -124,14 +124,14 @@
 <% } %>
 
 <script>
-//初始化检测项目选择表DataGrid对象
+//初始化检测项目选择DataGrid对象
 $("#checkBillItemDataGrid").dataGrid({
 
 	data: ${toJson(checkBill.checkBillItemList)},
 	datatype: "local", // 设置本地数据
 	autoGridHeight: function(){return 'auto'}, // 设置自动高度
 	
-	// 设置数据表格列
+	// 设置数据格列
 	columnModel: [
 		{header:'状态', name:'status', editable:true, hidden:true},
 		{header:'主键', name:'id', editable:true, hidden:true},
