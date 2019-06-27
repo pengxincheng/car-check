@@ -197,7 +197,7 @@ $("#plateNumber").blur(function () {
 			$("#customerAddress").val(data.data.address);
 			$("#carType").val(data.data.carType);
 		}else {
-            alert('客户不存在，请先添加客户');
+			js.alert('客户不存在，请先添加客户');
             layer.open({
 				type: 2,
 				title: '新增客户',

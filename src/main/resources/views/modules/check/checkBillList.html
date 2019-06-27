@@ -90,9 +90,9 @@ $('#exportButton').click(function () {
 });
 
 function tuidan(obj) {
-	log(obj)
 	var checkBillId = obj.value;
-	js.ajaxSubmit("${ctx}/check/checkBill/refund",{checkBillId:checkBillId},function (data) {
+
+	js.confirm('确定退单吗?','${ctx}/check/checkBill/refund', {checkBillId:checkBillId}, function (data) {
 		if(data.result == 'true'){
 			js.alert(data.message, null, function () {
 				$('#dataGrid').dataGrid('reloadGrid');
@@ -100,7 +100,19 @@ function tuidan(obj) {
 		}else {
 			js.alert(data.message)
 		}
-	})
+
+	}, 'json', true, '正在退单...');
+
+
+	/*js.ajaxSubmit("${ctx}/check/checkBill/refund",{checkBillId:checkBillId},function (data) {
+		if(data.result == 'true'){
+			js.alert(data.message, null, function () {
+				$('#dataGrid').dataGrid('reloadGrid');
+			});
+		}else {
+			js.alert(data.message)
+		}
+	})*/
 
 
 }
