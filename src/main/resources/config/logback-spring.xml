@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="false">
 
+	<springProperty scope="context" name="applicationName" source="spring.application.name"/>
 	<!-- Log file path -->
-	<property name="log.path" value="${logPath:-${java.io.tmpdir:-.}}/logs" />
-	
+	<property name="log.path" value="/data/logs/${applicationName}/" />
+
 	<!-- Framework level setting -->
-	<include resource="config/logger-core.xml"/>
-	
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+	<logger name="org.springframework.boot.web.embedded" level="INFO" />
+	<logger name="net.oschina.j2cache.caffeine.CaffeineProvider" level="ERROR" />
+
+	<!-- 	<logger name="org.apache.ibatis" level="DEBUG" /> -->
+	<!-- 	<logger name="org.mybatis.spring" level="DEBUG" /> -->
+	<!-- 	<logger name="org.springframework.jdbc" level="DEBUG" /> -->
+	<logger name="org.mybatis.spring.transaction" level="INFO" />
+	<logger name="com.atomikos.icatch.config.UserTransactionServiceImp" level="ERROR" />
+	<logger name="com.atomikos.icatch.provider.imp.AssemblerImp" level="ERROR" />
+	<logger name="com.atomikos.jdbc.AbstractDataSourceBean" level="ERROR" />
+	<logger name="com.atomikos.jdbc.AtomikosConnectionProxy" level="ERROR" />
+	<logger name="com.atomikos.recovery.xa.XaResourceRecoveryManager" level="ERROR" />
+	<!-- 	<logger name="org.springframework.transaction.support.TransactionSynchronizationManager" level="TRACE" /> -->
+
+	<logger name="springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader" level="ERROR" />
+	<!-- 	<logger name="io.swagger" level="DEBUG" /> -->
+	<!-- 	<logger name="springfox" level="DEBUG" /> -->
+
+	<logger name="com.jeesite" level="DEBUG" />
+	<logger name="com.jeesite.common.i18n" level="INFO" />
+	<logger name="com.jeesite.common.shiro" level="INFO" />
+	<logger name="com.jeesite.common.cache" level="INFO" />
+	<logger name="com.jeesite.common.j2cache" level="INFO" />
+	<logger name="com.jeesite.common.mybatis" level="INFO" />
+	<logger name="com.jeesite.common.mybatis.mapper" level="INFO" />
+	<logger name="com.jeesite.common.reflect.ReflectUtils" level="INFO" />
+	<logger name="com.jeesite.common.io.FileUtils" level="INFO" />
+
+
 	<!-- Project level setting -->
-<!-- 	<logger name="your.package" level="DEBUG" /> -->
+ 	<logger name="com.jeesite" level="INFO" />
 	
 	<!-- Console log output -->
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -52,7 +82,7 @@
 	</appender>
 
 	<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
-	<root level="WARN">
+	<root level="INFO">
 		<appender-ref ref="console" />
 		<appender-ref ref="debug" />
 		<appender-ref ref="error" />
