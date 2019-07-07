@@ -6,6 +6,8 @@ package com.jeesite.modules.charging.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jeesite.common.lang.StringUtils;
+import com.jeesite.modules.utils.Idutils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,6 +93,9 @@ public class ChargingItemsController extends BaseController {
 	@PostMapping(value = "save")
 	@ResponseBody
 	public String save(@Validated ChargingItems chargingItems) {
+		if(StringUtils.isEmpty(chargingItems.getCode())){
+			chargingItems.setCode(Idutils.getNextId(Idutils.PREFIX));
+		}
 		chargingItemsService.save(chargingItems);
 		return renderResult(Global.TRUE, text("保存检查项目成功！"));
 	}

@@ -24,6 +24,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="address", attrName="address", label="客户地址", isQuery=false),
 		@Column(name="car_type", attrName="carType", label="车型"),
 		@Column(name="phone_number", attrName="phoneNumber", label="联系电话"),
+		@Column(name="code", attrName="code", label="客户编码"),
 		@Column(includeEntity=DataEntity.class),
 	}, orderBy="a.update_date DESC"
 )
@@ -35,6 +36,7 @@ public class Customer extends DataEntity<Customer> {
 	private String address;		// 客户地址
 	private String carType;		// 车型
 	private Long phoneNumber;		// 联系电话
+	private String code;    //客户编码
 	
 	public Customer() {
 		this(null);
@@ -90,5 +92,12 @@ public class Customer extends DataEntity<Customer> {
 	public void setPhoneNumber(Long phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 }

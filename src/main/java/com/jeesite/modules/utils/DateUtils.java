@@ -15,6 +15,8 @@ public class DateUtils {
 
     public static final String FORMAT_DATE = "yyyy-MM-dd";
 
+    public static final String FORMAT_SHOR_YEAR_MONTH = "yyMM";
+
     /**
      * 获取date所在月的最小日期
      * @param date

@@ -21,6 +21,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="num", attrName="num", label="数量"),
 		@Column(name="price", attrName="price", label="金额"),
 		@Column(includeEntity=DataEntity.class),
+		@Column(name="code", attrName="code", label="客户编码"),
 	}, orderBy="a.update_date DESC"
 )
 public class ChargingItems extends DataEntity<ChargingItems> {
@@ -29,6 +30,7 @@ public class ChargingItems extends DataEntity<ChargingItems> {
 	private String itemName;		// 项目名称
 	private Long num;		// 数量
 	private Double price;		// 金额
+	private String code;
 	
 	public ChargingItems() {
 		this(null);
@@ -62,5 +64,12 @@ public class ChargingItems extends DataEntity<ChargingItems> {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 }

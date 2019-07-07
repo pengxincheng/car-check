@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.jeesite.modules.car.entity.CarType;
+import com.jeesite.modules.car.service.CarTypeService;
 import com.jeesite.modules.check.bo.CheckBillExcelModel;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
 import com.jeesite.modules.enums.BillTypeEnum;
-import com.jeesite.modules.utils.CheckBillIdGenerator;
-import com.jeesite.modules.utils.DateUtils;
+import com.jeesite.modules.utils.Idutils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,9 +33,7 @@ import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.check.entity.CheckBill;
 import com.jeesite.modules.check.service.CheckBillService;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,6 +50,8 @@ public class CheckBillController extends BaseController {
     private CheckBillService checkBillService;
     @Autowired
     private CheckBillItemService checkBillItemService;
+    @Autowired
+    private CarTypeService carTypeService;
 
     /**
      * 获取数据
@@ -89,7 +90,11 @@ public class CheckBillController extends BaseController {
     @RequestMapping(value = "form")
     public String form(CheckBill checkBill, Model model) {
         Long count = checkBillService.findCount(new CheckBill());
-        checkBill.setBillId(CheckBillIdGenerator.getNextId(count.intValue()));
+        checkBill.setBillId(Idutils.getNextCheckBillId(count.intValue()));
+
+        List<CarType> carTypeList = carTypeService.findList(new CarType());
+        model.addAttribute("carTypeList", carTypeList);
+
         model.addAttribute("checkBill", checkBill);
         return "modules/check/checkBillForm";
     }

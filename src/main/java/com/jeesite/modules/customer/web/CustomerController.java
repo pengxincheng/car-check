@@ -5,13 +5,16 @@ package com.jeesite.modules.customer.web;
 
 import com.jeesite.common.config.Global;
 import com.jeesite.common.entity.Page;
+import com.jeesite.common.lang.StringUtils;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.car.entity.CarType;
 import com.jeesite.modules.car.service.CarTypeService;
 import com.jeesite.modules.customer.entity.Customer;
 import com.jeesite.modules.customer.service.CustomerService;
+import com.jeesite.modules.utils.Idutils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -87,7 +91,15 @@ public class CustomerController extends BaseController {
 	@PostMapping(value = "save")
 	@ResponseBody
 	public String save(@Validated Customer customer) {
-		customerService.save(customer);
+		if(StringUtils.isEmpty(customer.getCode())){
+			customer.setCode(Idutils.getNextId(Idutils.CUSTOMER_PREFIX));
+		}
+		try{
+			customerService.save(customer);
+		}catch (DuplicateKeyException e){
+			return renderResult(Global.FALSE, text("添加客户失败，该车牌号已存在"));
+		}
+
 		return renderResult(Global.TRUE, text("保存客户表成功！"));
 	}
 	

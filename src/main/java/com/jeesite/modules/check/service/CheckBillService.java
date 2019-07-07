@@ -4,10 +4,9 @@
 package com.jeesite.modules.check.service;
 
 import java.util.Date;
-import java.util.List;
 
 import com.jeesite.modules.enums.BillTypeEnum;
-import com.jeesite.modules.utils.CheckBillIdGenerator;
+import com.jeesite.modules.utils.Idutils;
 import com.jeesite.modules.utils.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +129,7 @@ public class CheckBillService extends CrudService<CheckBillDao, CheckBill> {
         Long count = this.findCount(new CheckBill());
 
         //保存退单
-        refundBill.setBillId(CheckBillIdGenerator.getNextId(count.intValue()));
+        refundBill.setBillId(Idutils.getNextCheckBillId(count.intValue()));
         refundBill.setId(null);
         refundBill.setBillType(BillTypeEnum.REFUND_BILL.getCode());
 
