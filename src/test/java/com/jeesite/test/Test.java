@@ -28,7 +28,7 @@ public class Test {
         CheckBillExcelModel checkBillExcelModel = new CheckBillExcelModel();
         checkBillExcelModel.setBillId("WX_201906001");
         checkBillExcelModel.setCarType("大型车");
-        checkBillExcelModel.setCheckTime(new Date());
+        checkBillExcelModel.setCheckTime("");
         checkBillExcelModel.setCustomerName("张三");
         checkBillExcelModel.setPlateNumber("京A12334");
         checkBillExcelModel.setCustomerPhoneNumber(13011230320L);

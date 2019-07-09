@@ -80,7 +80,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required hide">*</span> ${text('车型')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:select path="carType" dictType="" items="${carTypeList}" itemLabel="typeName" itemValue="typeName" blankOption="true" class="form-control" />
+								<#form:select path="carType" id="carType" dictType="" items="${carTypeList}" itemLabel="typeName" itemValue="typeName" blankOption="true" class="form-control" />
 							</div>
 						</div>
 					</div>
@@ -101,7 +101,7 @@
 							<label class="control-label col-sm-2" title="">
 								<span class="required hide">*</span> ${text('备注信息')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-10">
-								<#form:textarea path="remarks" rows="4" maxlength="500" class="form-control"/>
+								<#form:textarea id='remarks' path="remarks" rows="4" maxlength="500" class="form-control"/>
 							</div>
 						</div>
 					</div>
@@ -192,11 +192,15 @@ $("#plateNumber").blur(function () {
 	if(plateNum === '') return;
 	js.ajaxSubmit('${ctx}/customer/customer/getByPlateNum', {"plateNumber":plateNum}, function(data){
 		if(data.result == 'true'){
-			$("#customerId").val(data.data.id);
+			$("#customerId").val(data.data.code);
 			$("#customerName").val(data.data.name);
 			$("#customerPhoneNumber").val(data.data.phoneNumber);
 			$("#customerAddress").val(data.data.address);
-			$("#carType").val(data.data.carType);
+			$("#remarks").val(data.data.remarks);
+			var mySelect = $("#carType").select2();    //获取select 的ID
+			var values = data.data.carType;
+			mySelect.val(values).trigger("change");
+			mySelect.change();
 		}else {
 			js.alert('客户不存在，请先添加客户');
             layer.open({

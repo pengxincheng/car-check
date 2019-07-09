@@ -18,35 +18,35 @@ public class CheckBillExcelModel extends BaseRowModel {
     @ExcelProperty(value = "检测单号", index = 1)
     private String billId;        // 检测单号
 
-    @ExcelProperty(value = "检测时间", index = 2, format = "yyyy-MM-dd HH:mm:ss")
-    private Date checkTime;        // 检测时间
+    @ExcelProperty(value = "检测时间", index = 2)
+    private String checkTime;        // 检测时间
 
     @ExcelProperty(value = "客户编号", index = 3)
     private String customerId;        // 客户编号
 
-    @ExcelProperty(value = "客户名称", index = 4)
-    private String customerName;        // 客户名称
-
-    @ExcelProperty(value = "车型", index = 5)
-    private String carType;        // 车型
-
-    @ExcelProperty(value = "联系方式", index = 6)
-    private Long customerPhoneNumber;        // 联系方式
-
-    @ExcelProperty(value = "联系地址", index = 7)
-    private String customerAddress;        // 客户地址
-
-    @ExcelProperty(value = "检测项目", index = 8)
-    private String itemName;        // 收费项目
-
-    @ExcelProperty(value = "项目编号", index = 9)
+    @ExcelProperty(value = "项目编号", index = 4)
     private String itemId;        // 项目编号
 
-    @ExcelProperty(value = "数量", index = 10)
+    @ExcelProperty(value = "客户名称", index = 5)
+    private String customerName;        // 客户名称
+
+    @ExcelProperty(value = "车型", index = 6)
+    private String carType;        // 车型
+
+    @ExcelProperty(value = "检测项目", index = 7)
+    private String itemName;        // 收费项目
+
+    @ExcelProperty(value = "数量", index = 8)
     private Long num;        // 数量
 
-    @ExcelProperty(value = "价格", index = 11)
+    @ExcelProperty(value = "金额", index = 9)
     private Double price;        // 价格
+
+    @ExcelProperty(value = "联系地址", index = 10)
+    private String customerAddress;        // 客户地址
+
+    @ExcelProperty(value = "联系方式", index = 11)
+    private Long customerPhoneNumber;        // 联系方式
 
     @ExcelProperty(value = "备注", index = 12)
     private String remark;
@@ -67,11 +67,11 @@ public class CheckBillExcelModel extends BaseRowModel {
         this.billId = billId;
     }
 
-    public Date getCheckTime() {
+    public String getCheckTime() {
         return checkTime;
     }
 
-    public void setCheckTime(Date checkTime) {
+    public void setCheckTime(String checkTime) {
         this.checkTime = checkTime;
     }
 

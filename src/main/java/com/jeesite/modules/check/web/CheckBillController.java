@@ -16,6 +16,7 @@ import com.jeesite.modules.check.bo.CheckBillExcelModel;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
 import com.jeesite.modules.enums.BillTypeEnum;
+import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
@@ -34,7 +35,9 @@ import com.jeesite.modules.check.entity.CheckBill;
 import com.jeesite.modules.check.service.CheckBillService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 检测单表Controller
@@ -78,6 +81,12 @@ public class CheckBillController extends BaseController {
     @RequestMapping(value = "listData")
     @ResponseBody
     public Page<CheckBill> listData(CheckBill checkBill, HttpServletRequest request, HttpServletResponse response) {
+        if(Objects.isNull(checkBill.getCheckTime_gte())){
+            checkBill.setCheckTime_gte(DateUtils.getMinDateOfDay(new Date()));
+        }
+        if(Objects.isNull(checkBill.getCheckTime_lte())){
+            checkBill.setCheckTime_lte(DateUtils.getMaxDateOfDay(new Date()));
+        }
         checkBill.setPage(new Page<>(request, response));
         Page<CheckBill> page = checkBillService.findPage(checkBill);
         return page;
@@ -146,8 +155,10 @@ public class CheckBillController extends BaseController {
                     if (CollectionUtils.isNotEmpty(checkBillItems)) {
                         checkBillItems.forEach(cbi -> {
                             CheckBillExcelModel excelModel = new CheckBillExcelModel();
-                            BeanUtils.copyProperties(cb, excelModel);
+                            BeanUtils.copyProperties(cb, excelModel,"checkTime");
                             BeanUtils.copyProperties(cbi, excelModel);
+                            excelModel.setCheckTime(DateUtils.getStringFromDate(cb.getCheckTime(),DateUtils.FORMAT_DATE_TIME));
+                            excelModel.setRemark(cb.getRemarks());
                             checkBillExcelModels.add(excelModel);
                         });
                     }
