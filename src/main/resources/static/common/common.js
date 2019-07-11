@@ -28,4 +28,3 @@ jQuery.validator.addMethod("carNumber", function(value, element) {
     }
 }, "请输入正确的车牌号");
 
-

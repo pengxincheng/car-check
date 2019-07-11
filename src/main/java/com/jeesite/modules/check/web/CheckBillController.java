@@ -15,6 +15,7 @@ import com.jeesite.modules.car.service.CarTypeService;
 import com.jeesite.modules.check.bo.CheckBillExcelModel;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
+import com.jeesite.modules.check.vo.CheckBillStatisticsVo;
 import com.jeesite.modules.enums.BillTypeEnum;
 import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
@@ -34,10 +35,9 @@ import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.check.entity.CheckBill;
 import com.jeesite.modules.check.service.CheckBillService;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * 检测单表Controller
@@ -81,12 +81,12 @@ public class CheckBillController extends BaseController {
     @RequestMapping(value = "listData")
     @ResponseBody
     public Page<CheckBill> listData(CheckBill checkBill, HttpServletRequest request, HttpServletResponse response) {
-        if(Objects.isNull(checkBill.getCheckTime_gte())){
+       /* if(Objects.isNull(checkBill.getCheckTime_gte())){
             checkBill.setCheckTime_gte(DateUtils.getMinDateOfDay(new Date()));
         }
         if(Objects.isNull(checkBill.getCheckTime_lte())){
             checkBill.setCheckTime_lte(DateUtils.getMaxDateOfDay(new Date()));
-        }
+        }*/
         checkBill.setPage(new Page<>(request, response));
         Page<CheckBill> page = checkBillService.findPage(checkBill);
         return page;
@@ -140,6 +140,13 @@ public class CheckBillController extends BaseController {
         return renderResult(Global.TRUE, text("删除检测单表成功！"));
     }
 
+    /**
+     * 导出Excell
+     * @param request
+     * @param response
+     * @param checkBill
+     */
+    //todo 优化导出文件名
     @GetMapping("/export/excel")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response, CheckBill checkBill) {
         try {
@@ -188,15 +195,41 @@ public class CheckBillController extends BaseController {
         CheckBill checkBill = checkBillService.get(new CheckBill(checkBillId));
 
         if (checkBill.getBillType() == BillTypeEnum.REFUND_BILL.getCode()) {
-            return renderResult(Global.FALSE, text("该单为负单，不能在退"));
+            return renderResult(Global.FALSE, text("该单为负单，不能再退"));
         }
 
         if (checkBill.getBillType() == BillTypeEnum.HAS_REFUNDED.getCode()) {
-            return renderResult(Global.FALSE, "该单已经退过单，不能在退");
+            return renderResult(Global.FALSE, "该单已经退过单，不能再退");
         }
 
         checkBillService.refundBill(checkBill);
 
         return renderResult(Global.TRUE, text("退单成功！"));
+    }
+
+
+    /**
+     * 查询列表数据
+     * @param checkBill
+     * @return
+     */
+    @RequiresPermissions("check:checkBill:view")
+    @RequestMapping(value = "getStatistics")
+    @ResponseBody
+    public CheckBillStatisticsVo getStatistics(CheckBill checkBill) {
+        if (Objects.isNull(checkBill.getCheckTime_gte())) {
+            checkBill.setCheckTime_gte(DateUtils.getMinDateOfDay(new Date()));
+        }
+        if (Objects.isNull(checkBill.getCheckTime_lte())) {
+            checkBill.setCheckTime_lte(DateUtils.getMaxDateOfDay(new Date()));
+        }
+        List<CheckBill> checkBills = checkBillService.findList(checkBill);
+
+        CheckBillStatisticsVo result = new CheckBillStatisticsVo();
+        if (CollectionUtils.isNotEmpty(checkBills)) {
+            result.setTotalCount(checkBills.size());
+            result.setTotalAmt(checkBills.stream().collect(Collectors.summingDouble(CheckBill::getTotalAmt)));
+        }
+        return result;
     }
 }

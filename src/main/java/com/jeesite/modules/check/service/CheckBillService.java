@@ -4,6 +4,7 @@
 package com.jeesite.modules.check.service;
 
 import java.util.Date;
+import java.util.List;
 
 import com.jeesite.modules.enums.BillTypeEnum;
 import com.jeesite.modules.utils.Idutils;
@@ -145,5 +146,10 @@ public class CheckBillService extends CrudService<CheckBillDao, CheckBill> {
         checkBill.setBillType(BillTypeEnum.HAS_REFUNDED.getCode());
         this.update(checkBill);
 
+    }
+
+    @Override
+    public List<CheckBill> findList(CheckBill entity) {
+        return super.findList(entity);
     }
 }
