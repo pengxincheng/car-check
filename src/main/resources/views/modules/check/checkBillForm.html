@@ -90,7 +90,7 @@
 							<label class="control-label col-sm-4" title="">
 								<span class="required ">*</span> ${text('应收金额')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
-								<#form:input id="totalAmt" path="totalAmt" class="form-control required number"/>
+								<#form:input id="totalAmt" path="totalAmt" readonly="true" class="form-control required number"/>
 							</div>
 						</div>
 					</div>
@@ -217,6 +217,7 @@ $("#plateNumber").blur(function () {
 	});
 });
 
+var priceIdArray = new Array();
 $("#checkBillItemDataGridAddRowBtn").click(function () {
 	layer.open({
 		btn: ['关闭'],
@@ -241,13 +242,21 @@ $("#checkBillItemDataGridAddRowBtn").click(function () {
 
 			var num_element = getElement(rowId,'num');
 			$(num_element).val(itemJson.num);
-			$(num_element).attr('readonly','readonly');
+			$(num_element).change(function () {
+				var num = new Number($(num_element).val());
+				var price = new Number(itemJson.price)
+				var totalAmt = num * price;
+				$(price_element).val(totalAmt.toFixed(2));
+				addPrice();
+			});
+
 
 			var price_element = getElement(rowId,'price');
+			priceIdArray.push(price_element);
 			$(price_element).val(itemJson.price)
 			$(price_element).attr('readonly','readonly');
 
-			addPrice(itemJson.price);
+			addPrice();
 		},
 	});
 });
@@ -256,17 +265,14 @@ function getElement(rowId, property) {
 	return '#' + rowId + '_' + property;
 }
 
-function addPrice(p) {
-	var tmpPrice = Number(p);
-	var totalAmt = $('#totalAmt').val();
-	if (totalAmt != '') {
-		var tmp = Number(totalAmt);
-		totalAmt = tmp + tmpPrice;
-	} else {
-		totalAmt = tmpPrice;
-	}
-	totalAmt.toFixed(2);
-	$('#totalAmt').val(totalAmt);
+function addPrice() {
+	var totalPrice = new Number(0.00);
+	priceIdArray.forEach(function (value) {
+		var tmpPrice = Number($(value).val());
+		totalPrice += tmpPrice;
+	})
+
+	$('#totalAmt').val(totalPrice.toFixed(2));
 }
 
 function reducePrice(rowId) {

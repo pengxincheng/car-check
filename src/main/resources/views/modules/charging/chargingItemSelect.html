@@ -42,8 +42,8 @@
         columnModel: [
             {header:'${text("项目名称")}', name:'itemName', index:'a.item_name', width:150, align:"center", frozen:true,},
 			{header:'${text("项目编号")}', name:'code', index:'a.code', width:150, align:"center", frozen:true,},
-            {header:'${text("数量")}', name:'num', index:'a.num', width:150, align:"center"},
-            {header:'${text("金额")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
+            {header:'${text("数量")}', name:'num', index:'a.num', width:150, align:"center",hidden:true},
+            {header:'${text("单价")}', name:'price', index:'a.price', width:150, align:"right", formatter: function(val, obj, row, act){
                     return js.formatNumber(val, 2, false, ''); // 数值类型格式化 (原始数值, 小数位数, 是否千分位, 默认值，金额情况下设置0.00);
                 }},
             {header:'${text("状态")}', name:'status', index:'a.status', width:150, align:"center", formatter: function(val, obj, row, act){
