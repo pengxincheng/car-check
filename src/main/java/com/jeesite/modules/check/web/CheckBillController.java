@@ -150,6 +150,8 @@ public class CheckBillController extends BaseController {
     @GetMapping("/export/excel")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response, CheckBill checkBill) {
         try {
+            String fileName = new String("检测单-".getBytes(),"UTF-8")+ DateUtils.getStringFromDate(checkBill.getCheckTime_gte(),DateUtils.FORMAT_DATE)+
+                    "_"+DateUtils.getStringFromDate(checkBill.getCheckTime_lte(),DateUtils.FORMAT_DATE);
             List<CheckBill> checkBills = checkBillService.findList(checkBill);
 
             List<CheckBillExcelModel> checkBillExcelModels = new ArrayList<>();
@@ -175,7 +177,7 @@ public class CheckBillController extends BaseController {
             ServletOutputStream out = response.getOutputStream();
             response.setContentType("multipart/form-data");
             response.setCharacterEncoding("utf-8");
-            response.setHeader("Content-disposition", "attachment;filename=" + "test" + ".xlsx");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
             ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX, true);
             Sheet sheet1 = new Sheet(1, 0, CheckBillExcelModel.class);
             sheet1.setSheetName("第一个sheet");
@@ -191,7 +193,7 @@ public class CheckBillController extends BaseController {
 
     @RequestMapping("/refund")
     @ResponseBody
-    public String refundBill(@Param("checkBillId") String checkBillId) {
+    public String refundBill(@Param("checkBillId") String checkBillId,@Param("remark") String remark) {
         CheckBill checkBill = checkBillService.get(new CheckBill(checkBillId));
 
         if (checkBill.getBillType() == BillTypeEnum.REFUND_BILL.getCode()) {
@@ -202,6 +204,7 @@ public class CheckBillController extends BaseController {
             return renderResult(Global.FALSE, "该单已经退过单，不能再退");
         }
 
+        checkBill.setRemarks(remark);
         checkBillService.refundBill(checkBill);
 
         return renderResult(Global.TRUE, text("退单成功！"));

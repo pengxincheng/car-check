@@ -210,7 +210,7 @@ $("#plateNumber").blur(function () {
 				area: ['800px', '500px'],
                 content: '${ctx}/customer/customer/form?plateNumber=' + plateNum,
 				end: function(){
-
+					$("#plateNumber").blur();
 				}
 			});
 		}
@@ -276,18 +276,11 @@ function addPrice() {
 }
 
 function reducePrice(rowId) {
-	var ele = getElement(rowId,'price');
-	var p = $(ele).val();
-
-	var tmpPrice = Number(p);
-	var totalAmt = $('#totalAmt').val();
-	if (totalAmt != '') {
-		var tmp = Number(totalAmt);
-		totalAmt = tmp - tmpPrice;
-	} else {
-		totalAmt = tmpPrice;
+	var price_element = getElement(rowId,'price');
+	var index = priceIdArray.indexOf(price_element);
+	if (index > -1){
+		priceIdArray.splice(index,1);
 	}
-	totalAmt.toFixed(2);
-	$('#totalAmt').val(totalAmt);
+	addPrice();
 }
 </script>

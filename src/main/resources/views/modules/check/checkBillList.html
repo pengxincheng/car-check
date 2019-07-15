@@ -1,4 +1,14 @@
 <% layout('/layouts/default.html', {title: '检测单管理', libs: ['dataGrid']}){ %>
+
+<style>
+	.tonhji{
+	padding-right: 300px;
+	color: red;
+	}
+</style>
+
+
+
 <div class="main-content">
 	<div class="box box-main">
 		<div class="box-header">
@@ -6,6 +16,8 @@
 				<i class="fa fa-list-alt"></i> ${text('检测单管理')}
 			</div>
 			<div class="box-tools pull-right">
+				<span class="tonhji">总单数:<span id="totalCount"></span></span>
+				<span class="tonhji">总金额:<span id="totalAmt"></span></span>
 				<% if(hasPermi('check:checkBill:edit')){ %>
 					<a href="${ctx}/check/checkBill/form" class="btn btn-default btnTool" title="${text('新增检测单')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
 				<% } %>
@@ -54,6 +66,25 @@
 		</div>
 	</div>
 </div>
+<div id="remark_" style="display:none;" class="main-content">
+	<div class="box box-main">
+		<div class="box-body">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="form-group">
+						<label class="control-label col-sm-2" title="">
+							<span class="required hide">*</span> ${text('备注')}：<i
+								class="fa icon-question hide"></i></label>
+						<div class="col-sm-10">
+							<#form:textarea path="remark" id="remark" rows="4" maxlength="500" class="form-control"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <% } %>
 <script>
 	// 对Date的扩展，将 Date 转化为指定格式的String
@@ -114,30 +145,55 @@ $('#exportButton').click(function () {
 
 function tuidan(obj) {
 	var checkBillId = obj.value;
-
-	js.confirm('确定退单吗?','${ctx}/check/checkBill/refund', {checkBillId:checkBillId}, function (data) {
-		if(data.result == 'true'){
-			js.alert(data.message, null, function () {
-				$('#dataGrid').dataGrid('reloadGrid');
-			});
-		}else {
-			js.alert(data.message)
-		}
-
-	}, 'json', true, '正在退单...');
+	js.confirm('确定退单吗?',function () {
+		layer.open({
+			title: '请填写退单原因',
+			type: 1,
+			area: ['500px', '300px'],
+			content: $('#remark_'), //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+			btn:['确定','取消'],
+			yes:function(){
+				var remark = $("#remark").val();
+				if(remark ==''){
+					js.showErrorMessage("请填写退单原因");
+					return false;
+				}else {
+					js.ajaxSubmit('${ctx}/check/checkBill/refund', {checkBillId:checkBillId,remark:remark},function (data) {
+						if(data.result == 'true'){
+							js.alert(data.message, null, function () {
+								$('#dataGrid').dataGrid('reloadGrid');
+							});
+						}else {
+							js.alert(data.message)
+						}
+					})
+				}
+			}
+		});
+	});
 }
 
 $("#searchForm").submit(function () {
-	var param = $("#searchForm").serialize();
-	js.ajaxSubmit("${ctx}/check/checkBill/getStatistics",param,function (data) {
-		log(data);
-	})
+	tongji();
 });
+
 
 	function setQueryTimeValue(){
 		$("#checkTime_gte").attr("value",new Date().Format("yyyy-MM-dd"));
 		$("#checkTime_lte").attr("value",new Date().Format("yyyy-MM-dd"));
 	}
 
+	$(document).ready(function(){
+		tongji();
+	});
+
+
+	function tongji() {
+		var param = $("#searchForm").serialize();
+		js.ajaxSubmit("${ctx}/check/checkBill/getStatistics",param,function (data) {
+			$("#totalCount").html(data.totalCount);
+			$("#totalAmt").html(data.totalAmt);
+		})
+	}
 
 </script>
