@@ -94,7 +94,8 @@ public class ChargingItemsController extends BaseController {
 	@ResponseBody
 	public String save(@Validated ChargingItems chargingItems) {
 		if(StringUtils.isEmpty(chargingItems.getCode())){
-			chargingItems.setCode(Idutils.getNextId(Idutils.PREFIX));
+			Long count = chargingItemsService.findCount(new ChargingItems());
+			chargingItems.setCode(Idutils.getNextCustomerCode(count.intValue()));
 		}
 		chargingItemsService.save(chargingItems);
 		return renderResult(Global.TRUE, text("保存检查项目成功！"));
@@ -110,5 +111,5 @@ public class ChargingItemsController extends BaseController {
 		chargingItemsService.delete(chargingItems);
 		return renderResult(Global.TRUE, text("删除检查项目成功！"));
 	}
-	
+
 }

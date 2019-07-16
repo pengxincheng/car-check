@@ -34,13 +34,15 @@ public class Idutils {
      *
      * @return
      */
-    public static String getNextId(String prefix) {
-        StringBuffer sb = new StringBuffer(prefix);
-        sb.append(DateUtils.getStringFromDate(new Date(), DateUtils.FORMAT_SHOR_YEAR_MONTH));
-        int millisecond = Calendar.getInstance().get(Calendar.MILLISECOND);
-        sb.append(new DecimalFormat("000").format(millisecond));
-         Random random = new Random();
-        sb.append(random.nextInt(10));
+    public static String getNextCustomerCode(int currentCount) {
+        StringBuffer sb = new StringBuffer(CUSTOMER_PREFIX);
+        sb.append(new DecimalFormat("00000000").format(currentCount));
+        return sb.toString();
+    }
+
+    public static String getNextItemCode(int currentCount){
+        StringBuffer sb = new StringBuffer(PREFIX);
+        sb.append(new DecimalFormat("000").format(currentCount));
         return sb.toString();
     }
 

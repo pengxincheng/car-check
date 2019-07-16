@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 /**
@@ -92,7 +91,8 @@ public class CustomerController extends BaseController {
 	@ResponseBody
 	public String save(@Validated Customer customer) {
 		if(StringUtils.isEmpty(customer.getCode())){
-			customer.setCode(Idutils.getNextId(Idutils.CUSTOMER_PREFIX));
+			Long count = customerService.findCount(new Customer());
+			customer.setCode(Idutils.getNextCustomerCode(count.intValue()));
 		}
 		try{
 			customerService.save(customer);

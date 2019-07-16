@@ -72,5 +72,10 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	public void delete(Customer customer) {
 		super.delete(customer);
 	}
-	
+
+
+	@Override
+	public long findCount(Customer entity) {
+		return super.findCount(entity);
+	}
 }

@@ -72,5 +72,9 @@ public class ChargingItemsService extends CrudService<ChargingItemsDao, Charging
 	public void delete(ChargingItems chargingItems) {
 		super.delete(chargingItems);
 	}
-	
+
+	@Override
+	public long findCount(ChargingItems entity) {
+		return super.findCount(entity);
+	}
 }
