@@ -189,6 +189,8 @@ $("#inputForm").validate({
 
 $("#plateNumber").blur(function () {
 	var plateNum = $("#plateNumber").val();
+    var validator = $( "#inputForm").validate();
+    if(!validator.element($("#plateNumber"))) return;
 	if(plateNum === '') return;
 	js.ajaxSubmit('${ctx}/customer/customer/getByPlateNum', {"plateNumber":plateNum}, function(data){
 		if(data.result == 'true'){
@@ -206,13 +208,23 @@ $("#plateNumber").blur(function () {
             layer.open({
 				type: 2,
 				title: '新增客户',
-				btn:['确定'],
+				btn:['确定','取消'],
 				maxmin: true,
 				area: ['800px', '500px'],
                 content: '${ctx}/customer/customer/form?plateNumber=' + plateNum,
+                success: function(layero, index){
+                    $(layero).find("iframe").contents().find("#btnSubmit").hide();
+                    $(layero).find("iframe").contents().find("#btnCancel").hide();
+                },
 				yes: function(index, layero){
-					layero.find("#")
-					$("#plateNumber").blur();
+                    var form = $(layero).find("iframe").contents().find("#inputForm");
+                    js.ajaxSubmitForm(form,function(data){
+                        if(data.result == 'true'){
+                            $("#plateNumber").blur();
+						}else {
+                            return false;
+						}
+					},'json',false);
 				},
 				end: function(){
 
