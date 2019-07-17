@@ -206,11 +206,16 @@ $("#plateNumber").blur(function () {
             layer.open({
 				type: 2,
 				title: '新增客户',
+				btn:['确定'],
 				maxmin: true,
 				area: ['800px', '500px'],
                 content: '${ctx}/customer/customer/form?plateNumber=' + plateNum,
-				end: function(){
+				yes: function(index, layero){
+					layero.find("#")
 					$("#plateNumber").blur();
+				},
+				end: function(){
+
 				}
 			});
 		}
