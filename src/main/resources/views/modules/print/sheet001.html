@@ -1,0 +1,217 @@
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+<meta name=ProgId content=Excel.Sheet>
+<meta name=Generator content="Microsoft Excel 15">
+ <link rel="stylesheet" href="${ctxStatic}/common/stylesheet.css">
+ <%/* Copyright (c) 2013-Now http://jeesite.com All rights reserved. */
+ /*
+ * 默认布局文件
+ * @param title 页面标题
+ * @param bodyClass body标签的class内容
+ * @param libs 要引用的js或css类库
+ */
+ var themeName = @Global.getConfig('web.view.themeName', 'default');
+ %>
+ <% include('/include/head.html', {title: text(title!)}){} %>
+ <% include('/themes/'+themeName+'/include/header.html', {libs: libs!}){} %>
+ <% include('/include/jslibs.html', {libs: libs!}){} %>
+ <script src="${ctxStatic}/common/common.js?${_version}"></script>
+<style>
+<!--table
+	{mso-displayed-decimal-separator:"\.";
+	mso-displayed-thousand-separator:"\,";}
+@page
+	{margin:.75in .25in .75in .25in;
+	mso-header-margin:.3in;
+	mso-footer-margin:.3in;
+    margin: 0mm}
+ruby
+	{ruby-align:left;}
+rt
+	{color:windowtext;
+	font-size:9.0pt;
+	font-weight:400;
+	font-style:normal;
+	text-decoration:none;
+	font-family:等线;
+	mso-generic-font-family:auto;
+	mso-font-charset:134;
+	mso-char-type:none;
+	display:none;}
+-->
+</style>
+<![if !supportTabStrip]><script language="JavaScript">
+<!--
+// fnUpdateTabs();
+//-->
+</script>
+<![endif]>
+</head>
+
+<body link="#0563C1" vlink="#954F72" class=xl65>
+<table border=0 cellpadding=0 cellspacing=0 width=775 style='border-collapse:
+ collapse;table-layout:fixed;width:582pt'>
+ <col class=xl65 width=68 style='mso-width-source:userset;mso-width-alt:2176;
+ width:51pt'>
+ <col class=xl65 width=83 style='mso-width-source:userset;mso-width-alt:2656;
+ width:62pt'>
+ <col class=xl65 width=147 style='mso-width-source:userset;mso-width-alt:4704;
+ width:110pt'>
+ <col class=xl65 width=50 style='mso-width-source:userset;mso-width-alt:1600;
+ width:38pt'>
+ <col class=xl65 width=114 style='mso-width-source:userset;mso-width-alt:3648;
+ width:86pt'>
+ <col class=xl65 width=66 style='mso-width-source:userset;mso-width-alt:2112;
+ width:50pt'>
+ <col class=xl66 width=92 style='mso-width-source:userset;mso-width-alt:2944;
+ width:69pt'>
+ <col class=xl66 width=83 style='mso-width-source:userset;mso-width-alt:2656;
+ width:62pt'>
+ <col class=xl65 width=72 style='mso-width-source:userset;mso-width-alt:2304;
+ width:54pt'>
+ <tr height=31 style='mso-height-source:userset;height:23.25pt'>
+  <td colspan=9 height=31 class=xl67 width=775 style='height:23.25pt;
+  width:582pt'>三河市兴悦达机动车检测服务有限公司结算单</td>
+ </tr>
+ <tr class=xl65 height=14 style='mso-height-source:userset;height:10.5pt'>
+  <td height=14 class=xl67 style='height:10.5pt'></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+  <td class=xl67></td>
+ </tr>
+ <tr height=15 style='mso-height-source:userset;height:11.25pt'>
+  <td height=15 class=xl68 style='height:11.25pt'>客户名称：</td>
+  <td colspan=2 class=xl68>${checkBill.customerName}</td>
+  <td class=xl68>联系人：</td>
+  <td class=xl69>${checkBill.customerPhoneNumber}</td>
+  <td class=xl68>单号：</td>
+  <td colspan=2 class=xl70>${checkBill.billId}</td>
+  <td rowspan=2 class=xl79>第1页</td>
+ </tr>
+ <tr height=2 style='mso-height-source:userset;height:1.5pt'>
+  <td height=2 class=xl68 style='height:1.5pt'></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl70></td>
+  <td class=xl70></td>
+ </tr>
+ <tr height=19 style='mso-height-source:userset;height:14.25pt'>
+  <td height=19 class=xl68 style='height:14.25pt'>车牌号：</td>
+  <td class=xl68>${checkBill.plateNumber}</td>
+  <td class=xl68></td>
+  <td class=xl68>车型：</td>
+  <td class=xl68>${checkBill.carType}</td>
+  <td class=xl68>时间：</td>
+  <td class=xl71 colspan=2 style='mso-ignore:colspan'>${checkBill.checkTime,dateFormat="yyyy-MM-dd hh:mm:ss"}</td>
+  <td class=xl68></td>
+ </tr>
+ <tr height=2 style='mso-height-source:userset;height:1.5pt'>
+  <td height=2 class=xl68 style='height:1.5pt'></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl70></td>
+  <td class=xl70></td>
+  <td class=xl68></td>
+ </tr>
+ <tr height=22 style='mso-height-source:userset;height:16.5pt'>
+  <td height=22 class=xl81 style='height:16.5pt'>序号</td>
+  <td class=xl81 style='border-left:none'>编码</td>
+  <td colspan=3 class=xl81 style='border-left:none'>收费项目</td>
+  <td class=xl81 style='border-left:none'><span
+  style='mso-spacerun:yes'>&nbsp;</span>数量</td>
+  <td class=xl82 style='border-left:none'>金额</td>
+  <td colspan=2 class=xl83 style='border-right:.5pt solid black;border-left:
+  none'>备注</td>
+ </tr>
+ <%
+ for(item in checkBillItemList ){
+ %>
+ <tr height=21 style='mso-height-source:userset;height:15.75pt'>
+  <td height=21 class=xl72 style='height:15.75pt;border-top:none'> ${itemLP.index}</td>
+  <td class=xl72 style='border-top:none;border-left:none'>${item.itemId}</td>
+  <td colspan=3 class=xl72 style='border-left:none'>${item.itemName}</td>
+  <td class=xl72 style='border-top:none;border-left:none'>${item.num}</td>
+  <td class=xl73 style='border-top:none;border-left:none'>${item.price} </td>
+  <td colspan=2 class=xl74 style='border-right:.5pt solid black;border-left:
+  none'>　${item.remarks}</td>
+ </tr>
+ <%}%>
+ <tr height=20 style='mso-height-source:userset;height:15.0pt'>
+  <td height=20 class=xl72 style='height:15.0pt;border-top:none'>合计</td>
+  <td colspan=5 class=xl76 style='border-right:.5pt solid black;border-left:
+  none'><span id="money"><span</td>
+  <td class=xl73 style='border-top:none;border-left:none'>${checkBill.totalAmt} </td>
+  <td colspan=2 class=xl74 style='border-right:.5pt solid black;border-left:
+  none'>　</td>
+ </tr>
+ <tr height=23 style='mso-height-source:userset;height:17.25pt'>
+  <td colspan=9 height=23 class=xl76 style='border-right:.5pt solid black;
+  height:17.25pt'>请客户代表(取车人)签字确认：</td>
+ </tr>
+ <tr height=18 style='mso-height-source:userset;height:13.5pt'>
+  <td height=18 class=xl68 style='height:13.5pt'>开票人：</td>
+  <td class=xl68>管理员</td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68>收款人：管理员</td>
+  <td colspan=4 class=xl80>本票自开票起三个月有效</td>
+ </tr>
+ <tr height=18 style='mso-height-source:userset;height:13.5pt'>
+  <td colspan=2 height=18 class=xl68 style='height:13.5pt'>凭此结算凭证换正式发票</td>
+  <td colspan=3 class=xl68>联系电话：0316-5755459</td>
+  <td colspan=4 class=xl68>地址：燕郊开发区雪花啤酒厂路北400米</td>
+ </tr>
+ <tr height=16 style='mso-height-source:userset;height:12.0pt'>
+  <td height=16 class=xl68 style='height:12.0pt'></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td class=xl68></td>
+  <td colspan=5 class=xl68><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  </span>白联存根 粉联收据 蓝联记账 黄联统计</td>
+ </tr>
+ <![if supportMisalignedColumns]>
+ <tr height=0 style='display:none'>
+  <td width=68 style='width:51pt'></td>
+  <td width=83 style='width:62pt'></td>
+  <td width=147 style='width:110pt'></td>
+  <td width=50 style='width:38pt'></td>
+  <td width=114 style='width:86pt'></td>
+  <td width=66 style='width:50pt'></td>
+  <td width=92 style='width:69pt'></td>
+  <td width=83 style='width:62pt'></td>
+  <td width=72 style='width:54pt'></td>
+ </tr>
+ <![endif]>
+</table>
+
+<script>
+
+ var s = "${checkBill.totalAmt}";
+ var str = convertCurrency(s);
+ $("#money").html(str);
+
+    window.onload = function(){
+        window.print();
+        js.closeCurrentTabPage(function(contentWindow){
+            contentWindow.page();
+        });
+    }
+</script>
+
+
+</body>
+
+</html>

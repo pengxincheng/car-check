@@ -19,8 +19,11 @@ public enum BillTypeEnum {
     /**
      * 已退过单的正单
      */
-    HAS_REFUNDED(2,"已退过单的正单")
+    HAS_REFUNDED(2,"已退过单的正单"),
 
+    UN_SETTLE(3,"未结算"),
+
+    SETTLED(4,"已结算")
     ;
 
     private int code;

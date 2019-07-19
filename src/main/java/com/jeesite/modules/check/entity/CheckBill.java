@@ -38,6 +38,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="total_amt", attrName="totalAmt", label="应收金额", isQuery=false),
 		@Column(name="bill_type", attrName="billType", label="检测单类型", isQuery=false),
 		@Column(name="ori_bill_id", attrName="oriBillId", label="原单号", isQuery=false),
+		@Column(name="settle_type", attrName="settleType", label="是否结算", isQuery=false),
 		@Column(includeEntity=DataEntity.class),
 	}, orderBy="a.check_time DESC"
 )
@@ -55,6 +56,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	private Double totalAmt;		// 应收金额
 	private int billType;
 	private String oriBillId;
+	private Integer settleType;
 	private List<CheckBillItem> checkBillItemList = ListUtils.newArrayList();		// 子表列表
 	
 	public CheckBill() {
@@ -187,5 +189,13 @@ public class CheckBill extends DataEntity<CheckBill> {
 
 	public void setOriBillId(String oriBillId) {
 		this.oriBillId = oriBillId;
+	}
+
+	public Integer getSettleType() {
+		return settleType;
+	}
+
+	public void setSettleType(Integer settleType) {
+		this.settleType = settleType;
 	}
 }

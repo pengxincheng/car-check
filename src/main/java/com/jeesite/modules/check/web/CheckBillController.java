@@ -10,9 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.jeesite.modules.car.entity.CarType;
 import com.jeesite.modules.car.service.CarTypeService;
 import com.jeesite.modules.check.bo.CheckBillExcelModel;
+import com.jeesite.modules.check.bo.CheckBillItemBO;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
 import com.jeesite.modules.check.vo.CheckBillStatisticsVo;
@@ -35,6 +39,8 @@ import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.check.entity.CheckBill;
 import com.jeesite.modules.check.service.CheckBillService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -118,6 +124,46 @@ public class CheckBillController extends BaseController {
         return "modules/check/checkBillDetail";
     }
 
+    @RequiresPermissions("check:checkBill:view")
+    @GetMapping("/getDetail")
+    public CheckBill getDetail(@RequestParam("id") String id) {
+        CheckBill param = new CheckBill();
+        param.setId(id);
+        CheckBill c = checkBillService.get(param);
+        return c;
+    }
+
+    @RequiresPermissions("check:checkBill:view")
+    @RequestMapping("/print")
+    public String print(@RequestParam("id") String id, Model model) {
+        CheckBill param = new CheckBill();
+        param.setId(id);
+        CheckBill c = checkBillService.get(param);
+
+      /*  if(BillTypeEnum.SETTLED.getCode() == c.getBillType()){
+            return renderResult(Global.TRUE, text("该单已结算过"));
+        }*/
+
+        model.addAttribute("checkBill", c);
+
+        List<CheckBillItemBO> checkBillItemBOList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(c.getCheckBillItemList())) {
+            c.getCheckBillItemList().forEach(item -> {
+                CheckBillItemBO checkBillItemBO = new CheckBillItemBO();
+                checkBillItemBO.setItemId(item.getItemId());
+                checkBillItemBO.setItemName(item.getItemName());
+                checkBillItemBO.setNum(item.getNum());
+                checkBillItemBO.setPrice(item.getPrice());
+                checkBillItemBO.setRemarks(c.getRemarks());
+                checkBillItemBOList.add(checkBillItemBO);
+            });
+        }
+        //c.setBillType(BillTypeEnum.SETTLED.getCode());
+      //  checkBillService.update(c);
+        model.addAttribute("checkBillItemList", checkBillItemBOList);
+        return "modules/print/sheet001";
+    }
+
     /**
      * 保存检测单表
      */
@@ -142,6 +188,7 @@ public class CheckBillController extends BaseController {
 
     /**
      * 导出Excell
+     *
      * @param request
      * @param response
      * @param checkBill
@@ -150,8 +197,8 @@ public class CheckBillController extends BaseController {
     @GetMapping("/export/excel")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response, CheckBill checkBill) {
         try {
-            String fileName = new String("检测单-".getBytes(),"UTF-8")+ DateUtils.getStringFromDate(checkBill.getCheckTime_gte(),DateUtils.FORMAT_DATE)+
-                    "_"+DateUtils.getStringFromDate(checkBill.getCheckTime_lte(),DateUtils.FORMAT_DATE);
+            String fileName = new String("检测单-".getBytes(), "UTF-8") + DateUtils.getStringFromDate(checkBill.getCheckTime_gte(), DateUtils.FORMAT_DATE) +
+                    "_" + DateUtils.getStringFromDate(checkBill.getCheckTime_lte(), DateUtils.FORMAT_DATE);
             List<CheckBill> checkBills = checkBillService.findList(checkBill);
 
             List<CheckBillExcelModel> checkBillExcelModels = new ArrayList<>();
@@ -164,9 +211,9 @@ public class CheckBillController extends BaseController {
                     if (CollectionUtils.isNotEmpty(checkBillItems)) {
                         checkBillItems.forEach(cbi -> {
                             CheckBillExcelModel excelModel = new CheckBillExcelModel();
-                            BeanUtils.copyProperties(cb, excelModel,"checkTime");
+                            BeanUtils.copyProperties(cb, excelModel, "checkTime");
                             BeanUtils.copyProperties(cbi, excelModel);
-                            excelModel.setCheckTime(DateUtils.getStringFromDate(cb.getCheckTime(),DateUtils.FORMAT_DATE_TIME));
+                            excelModel.setCheckTime(DateUtils.getStringFromDate(cb.getCheckTime(), DateUtils.FORMAT_DATE_TIME));
                             excelModel.setRemark(cb.getRemarks());
                             checkBillExcelModels.add(excelModel);
                         });
@@ -193,7 +240,7 @@ public class CheckBillController extends BaseController {
 
     @RequestMapping("/refund")
     @ResponseBody
-    public String refundBill(@Param("checkBillId") String checkBillId,@Param("remark") String remark) {
+    public String refundBill(@Param("checkBillId") String checkBillId, @Param("remark") String remark) {
         CheckBill checkBill = checkBillService.get(new CheckBill(checkBillId));
 
         if (checkBill.getBillType() == BillTypeEnum.REFUND_BILL.getCode()) {
@@ -213,6 +260,7 @@ public class CheckBillController extends BaseController {
 
     /**
      * 查询列表数据
+     *
      * @param checkBill
      * @return
      */
@@ -230,8 +278,10 @@ public class CheckBillController extends BaseController {
 
         CheckBillStatisticsVo result = new CheckBillStatisticsVo();
         if (CollectionUtils.isNotEmpty(checkBills)) {
+            Double d = checkBills.stream().collect(Collectors.summingDouble(CheckBill::getTotalAmt));
+            BigDecimal bg = new BigDecimal(d).setScale(2, RoundingMode.UP);
             result.setTotalCount(checkBills.size());
-            result.setTotalAmt(checkBills.stream().collect(Collectors.summingDouble(CheckBill::getTotalAmt)));
+            result.setTotalAmt(bg.doubleValue());
         }
         return result;
     }
