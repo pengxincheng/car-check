@@ -95,7 +95,7 @@ public class ChargingItemsController extends BaseController {
 	public String save(@Validated ChargingItems chargingItems) {
 		if(StringUtils.isEmpty(chargingItems.getCode())){
 			Long count = chargingItemsService.findCount(new ChargingItems());
-			chargingItems.setCode(Idutils.getNextCustomerCode(count.intValue()));
+			chargingItems.setCode(Idutils.getNextItemCode(count.intValue()));
 		}
 		chargingItemsService.save(chargingItems);
 		return renderResult(Global.TRUE, text("保存检查项目成功！"));

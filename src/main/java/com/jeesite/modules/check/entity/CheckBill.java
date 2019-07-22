@@ -54,6 +54,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	private String customerAddress;		// 客户地址
 	private String carType;		// 车型
 	private Double totalAmt;		// 应收金额
+	private String totalAmtStr;
 	private int billType;
 	private String oriBillId;
 	private Integer settleType;
@@ -197,5 +198,13 @@ public class CheckBill extends DataEntity<CheckBill> {
 
 	public void setSettleType(Integer settleType) {
 		this.settleType = settleType;
+	}
+
+	public String getTotalAmtStr() {
+		return totalAmtStr;
+	}
+
+	public void setTotalAmtStr(String totalAmtStr) {
+		this.totalAmtStr = totalAmtStr;
 	}
 }

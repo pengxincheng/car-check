@@ -41,6 +41,7 @@ import com.jeesite.modules.check.service.CheckBillService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -136,9 +137,11 @@ public class CheckBillController extends BaseController {
     @RequiresPermissions("check:checkBill:view")
     @RequestMapping("/print")
     public String print(@RequestParam("id") String id, Model model) {
+        DecimalFormat df = new DecimalFormat("#0.00");
         CheckBill param = new CheckBill();
         param.setId(id);
         CheckBill c = checkBillService.get(param);
+        c.setTotalAmtStr(df.format(c.getTotalAmt()));
 
       /*  if(BillTypeEnum.SETTLED.getCode() == c.getBillType()){
             return renderResult(Global.TRUE, text("该单已结算过"));
@@ -153,13 +156,13 @@ public class CheckBillController extends BaseController {
                 checkBillItemBO.setItemId(item.getItemId());
                 checkBillItemBO.setItemName(item.getItemName());
                 checkBillItemBO.setNum(item.getNum());
-                checkBillItemBO.setPrice(item.getPrice());
+                checkBillItemBO.setPrice(df.format(item.getPrice()));
                 checkBillItemBO.setRemarks(c.getRemarks());
                 checkBillItemBOList.add(checkBillItemBO);
             });
         }
         //c.setBillType(BillTypeEnum.SETTLED.getCode());
-      //  checkBillService.update(c);
+        //  checkBillService.update(c);
         model.addAttribute("checkBillItemList", checkBillItemBOList);
         return "modules/print/sheet001";
     }

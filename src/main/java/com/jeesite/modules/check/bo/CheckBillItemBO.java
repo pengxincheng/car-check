@@ -9,7 +9,7 @@ public class CheckBillItemBO {
     private String itemName;		// 收费项目
     private String itemId;		// 项目编号
     private Long num;		// 数量
-    private Double price;		// 价格
+    private String price;		// 价格
     private String remarks;
 
     public String getItemName() {
@@ -36,11 +36,11 @@ public class CheckBillItemBO {
         this.num = num;
     }
 
-    public Double getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
