@@ -5,7 +5,6 @@ package com.jeesite.modules.customer.entity;
 
 import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
-import javax.validation.constraints.NotNull;
 
 import com.jeesite.common.entity.DataEntity;
 import com.jeesite.common.mybatis.annotation.Column;
@@ -35,7 +34,7 @@ public class Customer extends DataEntity<Customer> {
 	private String plateNumber;		// 车牌号
 	private String address;		// 客户地址
 	private String carType;		// 车型
-	private Long phoneNumber;		// 联系电话
+	private String phoneNumber;		// 联系电话
 	private String code;    //客户编码
 	
 	public Customer() {
@@ -84,12 +83,11 @@ public class Customer extends DataEntity<Customer> {
 		this.carType = carType;
 	}
 	
-	@NotNull(message="联系电话不能为空")
-	public Long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
 
-	public void setPhoneNumber(Long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

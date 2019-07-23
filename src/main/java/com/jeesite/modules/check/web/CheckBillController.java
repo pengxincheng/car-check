@@ -200,7 +200,7 @@ public class CheckBillController extends BaseController {
     @GetMapping("/export/excel")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response, CheckBill checkBill) {
         try {
-            String fileName = new String("检测单-".getBytes(), "UTF-8") + DateUtils.getStringFromDate(checkBill.getCheckTime_gte(), DateUtils.FORMAT_DATE) +
+            String fileName =  DateUtils.getStringFromDate(checkBill.getCheckTime_gte(), DateUtils.FORMAT_DATE) +
                     "_" + DateUtils.getStringFromDate(checkBill.getCheckTime_lte(), DateUtils.FORMAT_DATE);
             List<CheckBill> checkBills = checkBillService.findList(checkBill);
 

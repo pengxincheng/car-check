@@ -8,8 +8,7 @@ import javax.validation.constraints.NotBlank;
 import com.jeesite.modules.utils.DateUtils;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
-import com.jeesite.common.mybatis.annotation.JoinTable;
-import com.jeesite.common.mybatis.annotation.JoinTable.Type;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -50,7 +49,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	private String plateNumber;		// 车牌号
 	private String customerId;		// 客户编号
 	private String customerName;		// 客户名称
-	private Long customerPhoneNumber;		// 联系方式
+	private String customerPhoneNumber;		// 联系方式
 	private String customerAddress;		// 客户地址
 	private String carType;		// 车型
 	private Double totalAmt;		// 应收金额
@@ -116,11 +115,11 @@ public class CheckBill extends DataEntity<CheckBill> {
 		this.customerName = customerName;
 	}
 	
-	public Long getCustomerPhoneNumber() {
+	public String getCustomerPhoneNumber() {
 		return customerPhoneNumber;
 	}
 
-	public void setCustomerPhoneNumber(Long customerPhoneNumber) {
+	public void setCustomerPhoneNumber(String customerPhoneNumber) {
 		this.customerPhoneNumber = customerPhoneNumber;
 	}
 	

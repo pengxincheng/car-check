@@ -32,7 +32,7 @@ public class Mytest {
         checkBillExcelModel.setCheckTime("");
         checkBillExcelModel.setCustomerName("张三");
         checkBillExcelModel.setPlateNumber("京A12334");
-        checkBillExcelModel.setCustomerPhoneNumber(13011230320L);
+       // checkBillExcelModel.setCustomerPhoneNumber(13011230320L);
         checkBillExcelModel.setNum(1L);
         checkBillExcelModel.setPrice(100.36);
         checkBillExcelModels.add(checkBillExcelModel);

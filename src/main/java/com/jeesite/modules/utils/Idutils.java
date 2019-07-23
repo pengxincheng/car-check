@@ -35,12 +35,14 @@ public class Idutils {
      * @return
      */
     public static String getNextCustomerCode(int currentCount) {
+        currentCount += 1;
         StringBuffer sb = new StringBuffer(CUSTOMER_PREFIX);
         sb.append(new DecimalFormat("00000000").format(currentCount));
         return sb.toString();
     }
 
     public static String getNextItemCode(int currentCount){
+        currentCount += 1;
         StringBuffer sb = new StringBuffer(PREFIX);
         sb.append(new DecimalFormat("000").format(currentCount));
         return sb.toString();

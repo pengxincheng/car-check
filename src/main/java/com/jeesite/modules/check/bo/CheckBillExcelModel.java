@@ -3,8 +3,6 @@ package com.jeesite.modules.check.bo;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 
-import java.util.Date;
-
 /**
  * @description
  * @author: pengxincheng
@@ -46,7 +44,7 @@ public class CheckBillExcelModel extends BaseRowModel {
     private String customerAddress;        // 客户地址
 
     @ExcelProperty(value = "联系方式", index = 11)
-    private Long customerPhoneNumber;        // 联系方式
+    private String customerPhoneNumber;        // 联系方式
 
     @ExcelProperty(value = "备注", index = 12)
     private String remark;
@@ -99,14 +97,6 @@ public class CheckBillExcelModel extends BaseRowModel {
         this.carType = carType;
     }
 
-    public Long getCustomerPhoneNumber() {
-        return customerPhoneNumber;
-    }
-
-    public void setCustomerPhoneNumber(Long customerPhoneNumber) {
-        this.customerPhoneNumber = customerPhoneNumber;
-    }
-
     public String getCustomerAddress() {
         return customerAddress;
     }
@@ -153,5 +143,13 @@ public class CheckBillExcelModel extends BaseRowModel {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getCustomerPhoneNumber() {
+        return customerPhoneNumber;
+    }
+
+    public void setCustomerPhoneNumber(String customerPhoneNumber) {
+        this.customerPhoneNumber = customerPhoneNumber;
     }
 }
