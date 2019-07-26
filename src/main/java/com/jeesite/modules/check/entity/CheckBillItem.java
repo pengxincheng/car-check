@@ -10,6 +10,9 @@ import com.jeesite.common.mybatis.annotation.Column;
 import com.jeesite.common.mybatis.annotation.Table;
 import com.jeesite.common.mybatis.mapper.query.QueryType;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * 检测单表Entity
  * @author pengxincheng
@@ -28,7 +31,9 @@ public class CheckBillItem extends DataEntity<CheckBillItem> {
 	
 	private static final long serialVersionUID = 1L;
 	private CheckBill billId;		// 维修单编号 父类
+	@NotBlank(message = "检测项目不能为空")
 	private String itemName;		// 收费项目
+	@NotNull(message = "检测项目不能为空")
 	private String itemId;		// 项目编号
 	private Long num;		// 数量
 	private Double price;		// 价格
@@ -42,7 +47,7 @@ public class CheckBillItem extends DataEntity<CheckBillItem> {
 		this.billId = billId;
 	}
 	
-	@Length(min=0, max=64, message="维修单编号长度不能超过 64 个字符")
+
 	public CheckBill getBillId() {
 		return billId;
 	}

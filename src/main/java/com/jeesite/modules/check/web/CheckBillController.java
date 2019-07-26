@@ -200,7 +200,7 @@ public class CheckBillController extends BaseController {
     @GetMapping("/export/excel")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response, CheckBill checkBill) {
         try {
-            String fileName =  DateUtils.getStringFromDate(checkBill.getCheckTime_gte(), DateUtils.FORMAT_DATE) +
+            String fileName = DateUtils.getStringFromDate(checkBill.getCheckTime_gte(), DateUtils.FORMAT_DATE) +
                     "_" + DateUtils.getStringFromDate(checkBill.getCheckTime_lte(), DateUtils.FORMAT_DATE);
             List<CheckBill> checkBills = checkBillService.findList(checkBill);
 
@@ -253,9 +253,7 @@ public class CheckBillController extends BaseController {
         if (checkBill.getBillType() == BillTypeEnum.HAS_REFUNDED.getCode()) {
             return renderResult(Global.FALSE, "该单已经退过单，不能再退");
         }
-
-        checkBill.setRemarks(remark);
-        checkBillService.refundBill(checkBill);
+        checkBillService.refundBill(checkBill, remark);
 
         return renderResult(Global.TRUE, text("退单成功！"));
     }

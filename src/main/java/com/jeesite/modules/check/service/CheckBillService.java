@@ -120,7 +120,7 @@ public class CheckBillService extends CrudService<CheckBillDao, CheckBill> {
     }
 
     @Transactional
-    public void refundBill(CheckBill checkBill) {
+    public void refundBill(CheckBill checkBill,String remark) {
         //status 1代表已经退过单了  2表示是负单不能退
 
         CheckBill refundBill = new CheckBill();
@@ -133,7 +133,7 @@ public class CheckBillService extends CrudService<CheckBillDao, CheckBill> {
         refundBill.setBillId(Idutils.getNextCheckBillId(count.intValue()));
         refundBill.setId(null);
         refundBill.setBillType(BillTypeEnum.REFUND_BILL.getCode());
-
+        refundBill.setRemarks(remark);
         refundBill.setTotalAmt(refundBill.getTotalAmt() * -1);
         refundBill.getCheckBillItemList().forEach(c -> {
             c.setBillId(refundBill);

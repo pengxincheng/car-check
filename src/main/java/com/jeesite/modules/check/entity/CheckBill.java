@@ -3,6 +3,7 @@
  */
 package com.jeesite.modules.check.entity;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 import com.jeesite.modules.utils.DateUtils;
@@ -11,6 +12,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import com.jeesite.common.collect.ListUtils;
 
@@ -166,7 +168,10 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCheckTime_lte(Date checkTime) {
 		sqlMap.getWhere().and("check_time", QueryType.LTE, DateUtils.getMaxDateOfDay(checkTime));
 	}
-	
+
+	@Valid
+	@NotNull(message = "检测项目不能为空")
+	@Size(message = "检测项目不能为空")
 	public List<CheckBillItem> getCheckBillItemList() {
 		return checkBillItemList;
 	}
