@@ -24,6 +24,8 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="car_type", attrName="carType", label="车型"),
 		@Column(name="phone_number", attrName="phoneNumber", label="联系电话"),
 		@Column(name="code", attrName="code", label="客户编码"),
+		@Column(name = "agent_name",attrName = "agentName",label = "代理人姓名"),
+		@Column(name = "remark_name",attrName = "remarkName",label = "代理人姓名"),
 		@Column(includeEntity=DataEntity.class),
 	}, orderBy="a.update_date DESC"
 )
@@ -36,6 +38,8 @@ public class Customer extends DataEntity<Customer> {
 	private String carType;		// 车型
 	private String phoneNumber;		// 联系电话
 	private String code;    //客户编码
+	private String agentName;
+	private String remarkName;
 	
 	public Customer() {
 		this(null);
@@ -97,5 +101,22 @@ public class Customer extends DataEntity<Customer> {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+
+	public String getAgentName() {
+		return agentName;
+	}
+
+	public void setAgentName(String agentName) {
+		this.agentName = agentName;
+	}
+
+	public String getRemarkName() {
+		return remarkName;
+	}
+
+	public void setRemarkName(String remarkName) {
+		this.remarkName = remarkName;
 	}
 }
