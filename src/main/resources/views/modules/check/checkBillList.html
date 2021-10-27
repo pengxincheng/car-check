@@ -113,11 +113,11 @@
 $('#dataGrid').dataGrid({
 	searchForm: $("#searchForm"),
 	columnModel: [
-		{header:'${text("检测单号")}', name:'billId', index:'a.bill_id', width:180, align:"left", frozen:true},
+		{header:'${text("检测单号")}', name:'billId', index:'a.bill_id', width:150, align:"left", frozen:true},
 		{header:'${text("检测时间")}', name:'checkTime', index:'a.check_time', width:200, align:"center"},
 		{header:'${text("车牌号")}', name:'plateNumber', index:'a.plate_number', width:100, align:"center"},
 		{header:'${text("客户编号")}', name:'customerId', index:'a.customer_id', width:120, align:"center"},
-		{header:'${text("客户名称")}', name:'customerName', index:'a.customer_name', width:150, align:"center"},
+		{header:'${text("客户名称")}', name:'customerName', index:'a.customer_name', width:100, align:"center"},
 		{header:'${text("联系方式")}', name:'customerPhoneNumber', index:'a.customer_phone_number', width:150, align:"center"},
 		{header:'${text("车型")}', name:'carType', index:'a.car_type', width:150, align:"center"},
 		{header:'${text("实收金额(元)")}', name:'totalAmt', index:'a.total_amt', width:100, align:"center"},
@@ -125,6 +125,7 @@ $('#dataGrid').dataGrid({
 			var actions = [];
 			<% if(hasPermi('check:checkBill:edit')){ %>
                 actions.push('<a href="${ctx}/check/checkBill/print?id='+row.id+'" class="btnList btn btn-success btn-sm" title="${text("结算")}">结算</a>&nbsp;');
+				actions.push('<a href="${ctx}/customer/customer/print?customerCode='+row.customerId+'" class="btnList btn btn-primary btn-sm" title="${text("申请单")}">申请单</a>&nbsp;');
 				actions.push('<a href="${ctx}/check/checkBill/detail?id='+row.id+'" class="btnList btn btn-success btn-sm" title="${text("详情")}">详情</a>&nbsp;');
 				actions.push('<button id="qq" onclick="tuidan(this)" value="'+row.id+'" class="btn-danger btn btn-sm " title="${text("退单")}"> 退单 </button>&nbsp;');
 			<% } %>

@@ -3,7 +3,7 @@
 
 	<springProperty scope="context" name="applicationName" source="spring.application.name"/>
 	<!-- Log file path -->
-	<property name="log.path" value="/data/logs/${applicationName}/" />
+	<property name="log.path" value="../logs/${applicationName}/" />
 
 	<!-- Framework level setting -->
 	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
