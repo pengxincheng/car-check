@@ -49,6 +49,9 @@ public class CheckBillExcelModel extends BaseRowModel {
     @ExcelProperty(value = "备注", index = 12)
     private String remark;
 
+    @ExcelProperty(value = "备注人（客户介绍人）", index = 12)
+    private String remarkName;
+
     public String getPlateNumber() {
         return plateNumber;
     }
@@ -151,5 +154,13 @@ public class CheckBillExcelModel extends BaseRowModel {
 
     public void setCustomerPhoneNumber(String customerPhoneNumber) {
         this.customerPhoneNumber = customerPhoneNumber;
+    }
+
+    public String getRemarkName() {
+        return remarkName;
+    }
+
+    public void setRemarkName(String remarkName) {
+        this.remarkName = remarkName;
     }
 }

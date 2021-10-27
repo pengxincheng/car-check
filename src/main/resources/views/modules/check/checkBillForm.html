@@ -94,6 +94,8 @@
 							</div>
 						</div>
 					</div>
+
+					<#form:input id="remarkName" path="remarkName" readonly="true" class="form-control" type="hidden"/>
 				</div>
 				<div class="row">
 					<div class="col-xs-12">
@@ -199,6 +201,7 @@ $("#plateNumber").blur(function () {
 			$("#customerPhoneNumber").val(data.data.phoneNumber);
 			$("#customerAddress").val(data.data.address);
 			$("#remarks").val(data.data.remarks);
+			$("#remarkName").val(data.data.remarkName);
 			var mySelect = $("#carType").select2();    //获取select 的ID
 			var values = data.data.carType;
 			mySelect.val(values).trigger("change");

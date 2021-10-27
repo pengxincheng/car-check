@@ -40,6 +40,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="bill_type", attrName="billType", label="检测单类型", isQuery=false),
 		@Column(name="ori_bill_id", attrName="oriBillId", label="原单号", isQuery=false),
 		@Column(name="settle_type", attrName="settleType", label="是否结算", isQuery=false),
+		@Column(name="remark_name", attrName="remarkName", label="备注人", isQuery=false),
 		@Column(includeEntity=DataEntity.class),
 	}, orderBy="a.check_time DESC"
 )
@@ -53,6 +54,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	private String customerName;		// 客户名称
 	private String customerPhoneNumber;		// 联系方式
 	private String customerAddress;		// 客户地址
+	private String remarkName;
 	private String carType;		// 车型
 	private Double totalAmt;		// 应收金额
 	private String totalAmtStr;
@@ -210,5 +212,13 @@ public class CheckBill extends DataEntity<CheckBill> {
 
 	public void setTotalAmtStr(String totalAmtStr) {
 		this.totalAmtStr = totalAmtStr;
+	}
+
+	public String getRemarkName() {
+		return remarkName;
+	}
+
+	public void setRemarkName(String remarkName) {
+		this.remarkName = remarkName;
 	}
 }
