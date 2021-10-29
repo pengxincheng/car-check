@@ -20,6 +20,7 @@ import com.jeesite.modules.check.bo.CheckBillItemBO;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
 import com.jeesite.modules.check.vo.CheckBillStatisticsVo;
+import com.jeesite.modules.customer.service.CustomerService;
 import com.jeesite.modules.enums.BillTypeEnum;
 import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
@@ -62,6 +63,8 @@ public class CheckBillController extends BaseController {
     private CheckBillItemService checkBillItemService;
     @Autowired
     private CarTypeService carTypeService;
+    @Autowired
+    private CustomerService customerService;
 
     /**
      * 获取数据
@@ -174,6 +177,8 @@ public class CheckBillController extends BaseController {
     @PostMapping(value = "save")
     @ResponseBody
     public String save(@Validated CheckBill checkBill) {
+        customerService.updateByCode(checkBill.getCustomerId(),checkBill.getAgentName(),checkBill.getRemarkName());
+
         checkBillService.save(checkBill);
         return renderResult(Global.TRUE, text("保存检测单表成功！"));
     }

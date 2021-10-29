@@ -78,4 +78,24 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	public long findCount(Customer entity) {
 		return super.findCount(entity);
 	}
+
+
+	/**
+	 * 更新
+	 * @param customerCode
+	 * @param agentName
+	 * @param remarkName
+	 */
+	@Transactional(readOnly=false)
+	public void updateByCode(String customerCode,String agentName,String remarkName){
+		Customer param = new Customer();
+		param.setCode(customerCode);
+
+
+		Customer customer = new Customer();
+		customer.setAgentName(agentName);
+		customer.setRemarkName(remarkName);
+
+		super.dao.updateByEntity(customer,param);
+	}
 }

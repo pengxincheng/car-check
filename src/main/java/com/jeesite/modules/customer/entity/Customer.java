@@ -26,7 +26,6 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 		@Column(name="code", attrName="code", label="客户编码"),
 		@Column(name = "agent_name",attrName = "agentName",label = "代理人姓名"),
 		@Column(name = "remark_name",attrName = "remarkName",label = "代理人姓名"),
-		@Column(name = "apply_type",attrName = "applyType",label = "申请方式"),
 		@Column(includeEntity=DataEntity.class),
 	}, orderBy="a.update_date DESC"
 )
@@ -41,7 +40,6 @@ public class Customer extends DataEntity<Customer> {
 	private String code;    //客户编码
 	private String agentName;
 	private String remarkName;
-	private Integer applyType;
 
 	/**
 	 * 非数据库实体
@@ -162,13 +160,6 @@ public class Customer extends DataEntity<Customer> {
 		this.date = date;
 	}
 
-	public Integer getApplyType() {
-		return applyType;
-	}
-
-	public void setApplyType(Integer applyType) {
-		this.applyType = applyType;
-	}
 
 	public String getLocal() {
 		return local;

@@ -94,9 +94,31 @@
 							</div>
 						</div>
 					</div>
-
-					<#form:input id="remarkName" path="remarkName" readonly="true" class="form-control" type="hidden"/>
 				</div>
+
+				<div class="row">
+
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> ${text('备注人')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input id="remarkName" path="remarkName"  class="form-control"/>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label col-sm-4" title="">
+								<span class="required hide">*</span> ${text('代理人')}：<i class="fa icon-question hide"></i></label>
+							<div class="col-sm-8">
+								<#form:input id="agentName" path="agentName" class="form-control"/>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<div class="row">
 					<div class="col-xs-12">
 						<div class="form-group">
@@ -202,6 +224,7 @@ $("#plateNumber").blur(function () {
 			$("#customerAddress").val(data.data.address);
 			$("#remarks").val(data.data.remarks);
 			$("#remarkName").val(data.data.remarkName);
+			$("#agentName").val(data.data.agentName);
 			var mySelect = $("#carType").select2();    //获取select 的ID
 			var values = data.data.carType;
 			mySelect.val(values).trigger("change");
