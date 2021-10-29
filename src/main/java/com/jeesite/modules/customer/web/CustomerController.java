@@ -13,6 +13,7 @@ import com.jeesite.modules.customer.dao.CustomerDao;
 import com.jeesite.modules.customer.entity.Customer;
 import com.jeesite.modules.customer.service.CustomerService;
 import com.jeesite.modules.enums.ApplyTypeEnum;
+import com.jeesite.modules.utils.CarTypeUtil;
 import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -167,6 +168,8 @@ public class CustomerController extends BaseController {
 			dbCustomer.setLocal(UN_SELECTED);
 			dbCustomer.setNotLocal(SELECTED);
 		}
+
+		dbCustomer.setCarType(CarTypeUtil.getPrintCarType(dbCustomer.getCarType(),dbCustomer.getPlateNumber()));
 
 		model.addAttribute("customer", dbCustomer);
 		return "modules/print/applyBillv2";
