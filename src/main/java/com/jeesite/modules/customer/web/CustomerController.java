@@ -51,7 +51,7 @@ public class CustomerController extends BaseController {
 	@Autowired
 	private CustomerDao customerDao;
 
-	@Value("${localPlate}")
+	@Value("${localplate}")
 	private String localPlate;
 	
 	/**
