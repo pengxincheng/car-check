@@ -104,8 +104,8 @@ public class CustomerController extends BaseController {
 	@ResponseBody
 	public String save(@Validated Customer customer) {
 		if(StringUtils.isEmpty(customer.getCode())){
-			Long count = customerService.findCount(new Customer());
-			customer.setCode(Idutils.getNextCustomerCode(count.intValue()));
+			int count = customerDao.countCustomer();
+			customer.setCode(Idutils.getNextCustomerCode(count));
 		}
 		try{
 			customerService.save(customer);
