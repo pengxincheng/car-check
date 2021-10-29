@@ -19,7 +19,7 @@ public class DateUtils {
 
     public static final String FORMAT_SHOR_YEAR_MONTH = "yyMM";
 
-    public static final String DATE_TIME_ZH_CN = "yyyy年MM月dd";
+    public static final String DATE_TIME_ZH_CN = "yyyy年MM月dd日";
 
     /**
      * 获取date所在月的最小日期

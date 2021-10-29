@@ -17,6 +17,7 @@ import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ import java.util.Objects;
 @RequestMapping(value = "${adminPath}/customer/customer")
 public class CustomerController extends BaseController {
 
-	private static final String SELECTED = "þ";
+	private static final String SELECTED = "\uF0FE";
 
 	private static final String UN_SELECTED = "□";
 
@@ -48,6 +49,9 @@ public class CustomerController extends BaseController {
 	private CarTypeService carTypeService;
 	@Autowired
 	private CustomerDao customerDao;
+
+	@Value("${localPlate}")
+	private String localPlate;
 	
 	/**
 	 * 获取数据
@@ -156,20 +160,16 @@ public class CustomerController extends BaseController {
 		}
 		dbCustomer.setDate(DateUtils.getStringFromDate(new Date(),DateUtils.DATE_TIME_ZH_CN));
 
-		if(dbCustomer.getApplyType() == ApplyTypeEnum.LOCAL.getCode()){
+		if (dbCustomer.getPlateNumber().contains(localPlate)) {
 			dbCustomer.setLocal(SELECTED);
 			dbCustomer.setNotLocal(UN_SELECTED);
-		}else if(dbCustomer.getApplyType() == ApplyTypeEnum.NO_LOCAL.getCode()){
+		} else {
 			dbCustomer.setLocal(UN_SELECTED);
 			dbCustomer.setNotLocal(SELECTED);
-		}else {
-			dbCustomer.setLocal(UN_SELECTED);
-			dbCustomer.setNotLocal(UN_SELECTED);
 		}
 
-
 		model.addAttribute("customer", dbCustomer);
-		return "modules/print/applyBill";
+		return "modules/print/applyBillv2";
 	}
 	
 }

@@ -79,18 +79,6 @@
 					<div class="col-xs-6">
 						<div class="form-group">
 							<label class="control-label col-sm-4" title="">
-								<span class="required ">*</span> ${text('申请方式')}：<i class="fa icon-question hide"></i></label>
-							<div class="col-sm-8">
-								 <!--<% var items = [{label:'是',value:'1'},{label:'否',value:'0'},{label:'禁用选项',value:'2',status:'2'}]; %> -->
-								<% var applyTypeList = [{label:'在登记地车辆管理所申请',value:'0'},{label:'在登记地以外车辆管理所申请',value:'1'}]; %>
-								<#form:select path="applyType" items="${applyTypeList}" itemLabel="label" itemValue="value" blankOption="true" blankOptionLabel="请选择" class="form-control required" />
-							</div>
-						</div>
-					</div>
-
-					<div class="col-xs-6">
-						<div class="form-group">
-							<label class="control-label col-sm-4" title="">
 								<span class="required hide">*</span> ${text('备注人')}：<i class="fa icon-question hide"></i></label>
 							<div class="col-sm-8">
 								<#form:input path="remarkName" maxlength="11" class="form-control"/>
