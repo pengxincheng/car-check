@@ -11,7 +11,7 @@
 	</parent>
 	
 	<artifactId>car-check</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	
 	<name>JeeSite Web</name>
 	<url>http://jeesite.com</url>
