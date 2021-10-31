@@ -174,7 +174,7 @@ public class CustomerController extends BaseController {
 		dbCustomer.setCarType(CarTypeUtil.getPrintCarType(dbCustomer.getCarType(),dbCustomer.getPlateNumber()));
 
 		model.addAttribute("customer", dbCustomer);
-		return "modules/print/applyBillv4";
+		return "modules/print/applyBillv5";
 	}
 	
 }
