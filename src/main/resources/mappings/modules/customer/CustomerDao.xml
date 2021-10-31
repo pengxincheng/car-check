@@ -11,5 +11,9 @@
 		</where>
 		ORDER BY ${sqlMap.order.toSql()}
 	</select> -->
-	
+
+
+	<select id="countCustomer" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM customer
+	</select>
 </mapper>
