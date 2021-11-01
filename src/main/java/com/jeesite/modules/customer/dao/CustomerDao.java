@@ -14,4 +14,7 @@ import com.jeesite.modules.customer.entity.Customer;
  */
 @MyBatisDao
 public interface CustomerDao extends CrudDao<Customer> {
+
+
+    int countCustomer();
 }

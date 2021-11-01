@@ -12,7 +12,6 @@ import com.jeesite.modules.car.service.CarTypeService;
 import com.jeesite.modules.customer.dao.CustomerDao;
 import com.jeesite.modules.customer.entity.Customer;
 import com.jeesite.modules.customer.service.CustomerService;
-import com.jeesite.modules.enums.ApplyTypeEnum;
 import com.jeesite.modules.utils.CarTypeUtil;
 import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
@@ -40,9 +39,12 @@ import java.util.Objects;
 @RequestMapping(value = "${adminPath}/customer/customer")
 public class CustomerController extends BaseController {
 
-	private static final String SELECTED = "\uF0FE";
 
-	private static final String UN_SELECTED = "□";
+	private static final String LOCAL_SELECT = "þ<font class='font5'>在登记地车辆管理所申请</font>";
+	private static final String LOCAL_UN_SELECT = "□在登记地车辆管理所申请";
+
+	private static final String NOT_LOCAL_SELECT = "þ<font class='font5'>在登记地以外车辆管理所申请</font>";
+	private static final String NOT_LOCAL_UN_SELECT = "□在登记地以外车辆管理所申请";
 
 	@Autowired
 	private CustomerService customerService;
@@ -51,7 +53,7 @@ public class CustomerController extends BaseController {
 	@Autowired
 	private CustomerDao customerDao;
 
-	@Value("${localPlate}")
+	@Value("${localplate}")
 	private String localPlate;
 	
 	/**
@@ -104,8 +106,8 @@ public class CustomerController extends BaseController {
 	@ResponseBody
 	public String save(@Validated Customer customer) {
 		if(StringUtils.isEmpty(customer.getCode())){
-			Long count = customerService.findCount(new Customer());
-			customer.setCode(Idutils.getNextCustomerCode(count.intValue()));
+			int count = customerDao.countCustomer();
+			customer.setCode(Idutils.getNextCustomerCode(count));
 		}
 		try{
 			customerService.save(customer);
@@ -162,17 +164,17 @@ public class CustomerController extends BaseController {
 		dbCustomer.setDate(DateUtils.getStringFromDate(new Date(),DateUtils.DATE_TIME_ZH_CN));
 
 		if (dbCustomer.getPlateNumber().contains(localPlate)) {
-			dbCustomer.setLocal(SELECTED);
-			dbCustomer.setNotLocal(UN_SELECTED);
+			dbCustomer.setLocal(LOCAL_SELECT);
+			dbCustomer.setNotLocal(NOT_LOCAL_UN_SELECT);
 		} else {
-			dbCustomer.setLocal(UN_SELECTED);
-			dbCustomer.setNotLocal(SELECTED);
+			dbCustomer.setLocal(LOCAL_UN_SELECT);
+			dbCustomer.setNotLocal(NOT_LOCAL_SELECT);
 		}
 
 		dbCustomer.setCarType(CarTypeUtil.getPrintCarType(dbCustomer.getCarType(),dbCustomer.getPlateNumber()));
 
 		model.addAttribute("customer", dbCustomer);
-		return "modules/print/applyBillv2";
+		return "modules/print/applyBillv5";
 	}
 	
 }
