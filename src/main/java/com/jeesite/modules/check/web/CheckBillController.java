@@ -177,7 +177,7 @@ public class CheckBillController extends BaseController {
     @PostMapping(value = "save")
     @ResponseBody
     public String save(@Validated CheckBill checkBill) {
-        customerService.updateByCode(checkBill.getCustomerId(),checkBill.getAgentName(),checkBill.getRemarkName());
+        customerService.updateByCode(checkBill.getCustomerId(),checkBill.getCustomerName(),checkBill.getCustomerAddress(),checkBill.getAgentName(),checkBill.getRemarkName());
 
         checkBillService.save(checkBill);
         return renderResult(Global.TRUE, text("保存检测单表成功！"));

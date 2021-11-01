@@ -83,11 +83,13 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 	/**
 	 * 更新
 	 * @param customerCode
+	 * @param customerName
+	 * @param customerAddress
 	 * @param agentName
 	 * @param remarkName
 	 */
 	@Transactional(readOnly=false)
-	public void updateByCode(String customerCode,String agentName,String remarkName){
+	public void updateByCode(String customerCode,String customerName, String customerAddress, String agentName,String remarkName){
 		Customer param = new Customer();
 		param.setCode(customerCode);
 
@@ -95,6 +97,8 @@ public class CustomerService extends CrudService<CustomerDao, Customer> {
 		Customer customer = new Customer();
 		customer.setAgentName(agentName);
 		customer.setRemarkName(remarkName);
+		customer.setName(customerName);
+		customer.setAddress(customerAddress);
 
 		super.dao.updateByEntity(customer,param);
 	}
