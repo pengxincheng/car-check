@@ -70,6 +70,8 @@ public class CustomerController extends BaseController {
 	@RequiresPermissions("customer:customer:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Customer customer, Model model) {
+		List<CarType> carTypeList = carTypeService.findList(new CarType());
+		model.addAttribute("carTypeList", carTypeList);
 		model.addAttribute("customer", customer);
 		return "modules/customer/customerList";
 	}

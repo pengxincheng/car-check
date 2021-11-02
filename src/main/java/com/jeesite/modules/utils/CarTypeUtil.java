@@ -29,6 +29,26 @@ public class CarTypeUtil {
      * @return
      */
     public static String getPrintCarType(String sysCarType, String plateNum) {
+
+        if (sysCarType.contains(DI_SU)) {
+            return "低速车";
+        }
+
+        if (sysCarType.contains(GUA) && plateNum.contains(GUA)) {
+            return "挂车";
+        }
+
+        if (sysCarType.contains(MO_TUO)) {
+            if (sysCarType.contains(JING)) {
+                return "警用摩托车";
+            } else if (sysCarType.contains(XUE)) {
+                return "教练摩托车";
+            } else {
+                return "普通摩托车";
+            }
+        }
+
+
         if (sysCarType.contains(BIG) || sysCarType.contains(MIDDLE) || sysCarType.contains(HEAVY)) {
             if (plateNum.length() == 7) {
                 return "大型汽车";
@@ -52,23 +72,6 @@ public class CarTypeUtil {
             } else {
                 return "小型新能源机动车";
             }
-        }
-
-        if (sysCarType.contains(MO_TUO)) {
-            if (sysCarType.contains(JING)) {
-                return "警用摩托车";
-            } else if (sysCarType.contains(XUE)) {
-                return "教练摩托车";
-            } else {
-                return "普通摩托车";
-            }
-        }
-        if (sysCarType.contains(DI_SU)) {
-            return "低速车";
-        }
-
-        if (sysCarType.contains(GUA)) {
-            return "挂车";
         }
 
         return "";
