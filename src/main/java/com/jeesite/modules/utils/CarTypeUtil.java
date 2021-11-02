@@ -34,7 +34,7 @@ public class CarTypeUtil {
             return "低速车";
         }
 
-        if (sysCarType.contains(GUA)) {
+        if (sysCarType.contains(GUA) && plateNum.contains(GUA)) {
             return "挂车";
         }
 
