@@ -175,6 +175,10 @@ public class CustomerController extends BaseController {
 
 		dbCustomer.setCarType(CarTypeUtil.getPrintCarType(dbCustomer.getCarType(),dbCustomer.getPlateNumber()));
 
+		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("学",""));
+		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("警",""));
+		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("挂",""));
+
 		model.addAttribute("customer", dbCustomer);
 		return "modules/print/applyBillv5";
 	}

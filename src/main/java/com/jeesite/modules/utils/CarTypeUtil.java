@@ -39,9 +39,9 @@ public class CarTypeUtil {
         }
 
         if (sysCarType.contains(MO_TUO)) {
-            if (sysCarType.contains(JING)) {
+            if (plateNum.contains(JING)) {
                 return "警用摩托车";
-            } else if (sysCarType.contains(XUE)) {
+            } else if (plateNum.contains(XUE)) {
                 return "教练摩托车";
             } else {
                 return "普通摩托车";
@@ -59,11 +59,11 @@ public class CarTypeUtil {
 
         if (sysCarType.contains(SMALL) || sysCarType.contains(LIGHT) || sysCarType.contains(TINY)) {
 
-            if (sysCarType.contains(XUE)) {
+            if (plateNum.contains(XUE)) {
                 return "教练汽车";
             }
 
-            if (sysCarType.contains(JING)) {
+            if (plateNum.contains(JING)) {
                 return "警用汽车";
             }
 
