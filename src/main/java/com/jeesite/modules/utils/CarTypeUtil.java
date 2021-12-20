@@ -20,6 +20,10 @@ public class CarTypeUtil {
     private static final String XUE = "学";
     private static final String JING = "警";
 
+    private static final String SAN_LUN = "三轮";
+
+
+
 
     /**
      * 系统车型 转化为申请表中的车型
@@ -30,8 +34,12 @@ public class CarTypeUtil {
      */
     public static String getPrintCarType(String sysCarType, String plateNum) {
 
+        if (sysCarType.contains(SAN_LUN)) {
+            return "三轮汽车";
+        }
+
         if (sysCarType.contains(DI_SU)) {
-            return "低速车";
+            return "低速汽车";
         }
 
         if (sysCarType.contains(GUA) && plateNum.contains(GUA)) {
