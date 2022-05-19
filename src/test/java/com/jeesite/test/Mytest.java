@@ -4,6 +4,7 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.jeesite.modules.check.bo.CheckBillExcelModel;
+import com.jeesite.modules.utils.CarTypeUtil;
 import com.jeesite.modules.utils.Idutils;
 import org.junit.Test;
 
@@ -60,7 +61,7 @@ public class Mytest {
    @Test
     public void testIdUtil() {
 
-        ExecutorService executor = Executors.newFixedThreadPool(1000);
+       System.out.println( CarTypeUtil.getPrintCarType("低速三轮汽车","京A12345"));;
 
 
     }
