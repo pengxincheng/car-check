@@ -70,6 +70,8 @@ public class CustomerController extends BaseController {
 	@RequiresPermissions("customer:customer:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Customer customer, Model model) {
+		List<CarType> carTypeList = carTypeService.findList(new CarType());
+		model.addAttribute("carTypeList", carTypeList);
 		model.addAttribute("customer", customer);
 		return "modules/customer/customerList";
 	}
@@ -172,6 +174,10 @@ public class CustomerController extends BaseController {
 		}
 
 		dbCustomer.setCarType(CarTypeUtil.getPrintCarType(dbCustomer.getCarType(),dbCustomer.getPlateNumber()));
+
+		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("学",""));
+		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("警",""));
+		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("挂",""));
 
 		model.addAttribute("customer", dbCustomer);
 		return "modules/print/applyBillv5";

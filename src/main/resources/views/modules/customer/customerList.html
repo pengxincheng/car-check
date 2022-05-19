@@ -30,7 +30,7 @@
 				<div class="form-group">
 					<label class="control-label">${text('车型')}：</label>
 					<div class="control-inline width-120">
-						<#form:select path="carType" dictType="" blankOption="true" class="form-control"/>
+						<#form:select path="carType" dictType="" items="${carTypeList}" itemLabel="typeName" itemValue="typeName" blankOption="true" class="form-control" />
 					</div>
 				</div>
 				<div class="form-group">
