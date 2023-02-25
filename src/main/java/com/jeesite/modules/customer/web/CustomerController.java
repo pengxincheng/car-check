@@ -180,7 +180,7 @@ public class CustomerController extends BaseController {
 		dbCustomer.setPlateNumber(dbCustomer.getPlateNumber().replaceAll("挂",""));
 
 		model.addAttribute("customer", dbCustomer);
-		return "modules/print/applyBillv6";
+		return "modules/print/applyBillv5";
 	}
 	
 }
