@@ -4,7 +4,10 @@
 package com.jeesite.modules.car.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,71 +18,100 @@ import com.jeesite.modules.car.dao.CarTypeDao;
 
 /**
  * 车型表Service
+ *
  * @author pengxincheng
  * @version 2019-06-16
  */
 @Service
-@Transactional(readOnly=true)
+@Transactional(readOnly = true)
 public class CarTypeService extends CrudService<CarTypeDao, CarType> {
-	
-	/**
-	 * 获取单条数据
-	 * @param carType
-	 * @return
-	 */
-	@Override
-	public CarType get(CarType carType) {
-		return super.get(carType);
-	}
-	
-	/**
-	 * 查询分页数据
-	 * @param carType 查询条件
-	 * @param carType.page 分页对象
-	 * @return
-	 */
-	@Override
-	public Page<CarType> findPage(CarType carType) {
-		return super.findPage(carType);
-	}
-	
-	/**
-	 * 保存数据（插入或更新）
-	 * @param carType
-	 */
-	@Override
-	@Transactional(readOnly=false)
-	public void save(CarType carType) {
-		super.save(carType);
-	}
-	
-	/**
-	 * 更新状态
-	 * @param carType
-	 */
-	@Override
-	@Transactional(readOnly=false)
-	public void updateStatus(CarType carType) {
-		super.updateStatus(carType);
-	}
-	
-	/**
-	 * 删除数据
-	 * @param carType
-	 */
-	@Override
-	@Transactional(readOnly=false)
-	public void delete(CarType carType) {
-		super.delete(carType);
-	}
 
-	/**
-	 * 获取列表
-	 * @param entity
-	 * @return
-	 */
-	@Override
-	public List<CarType> findList(CarType entity) {
-		return super.findList(entity);
-	}
+    /**
+     * 获取单条数据
+     *
+     * @param carType
+     * @return
+     */
+    @Override
+    public CarType get(CarType carType) {
+        return super.get(carType);
+    }
+
+    /**
+     * 查询分页数据
+     *
+     * @param carType      查询条件
+     * @param carType.page 分页对象
+     * @return
+     */
+    @Override
+    public Page<CarType> findPage(CarType carType) {
+        return super.findPage(carType);
+    }
+
+    /**
+     * 保存数据（插入或更新）
+     *
+     * @param carType
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void save(CarType carType) {
+        super.save(carType);
+    }
+
+    /**
+     * 更新状态
+     *
+     * @param carType
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void updateStatus(CarType carType) {
+        super.updateStatus(carType);
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param carType
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void delete(CarType carType) {
+        super.delete(carType);
+    }
+
+    /**
+     * 获取列表
+     *
+     * @param entity
+     * @return
+     */
+    @Override
+    public List<CarType> findList(CarType entity) {
+        return super.findList(entity);
+    }
+
+    public List<String> findExistCarTypeList() {
+        CarType carType = new CarType();
+        return super.findList(carType).stream().map(CarType::getTypeName).collect(Collectors.toList());
+    }
+
+    /**
+     * 批量插入
+     * @param allCarType
+     */
+    public void batchSave(List<String> allCarType) {
+        List<CarType> carTypeList = Lists.newArrayList();
+        allCarType.forEach(typeName -> {
+            CarType carType = new CarType();
+            carType.setTypeName(typeName);
+            carTypeList.add(carType);
+        });
+
+        if (CollectionUtils.isNotEmpty(carTypeList)) {
+            dao.insertBatch(carTypeList);
+        }
+    }
 }

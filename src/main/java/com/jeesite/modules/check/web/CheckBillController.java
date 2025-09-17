@@ -7,12 +7,14 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.jeesite.common.web.b.E;
 import com.jeesite.modules.car.entity.CarType;
 import com.jeesite.modules.car.service.CarTypeService;
 import com.jeesite.modules.check.bo.CheckBillExcelModel;
@@ -20,10 +22,12 @@ import com.jeesite.modules.check.bo.CheckBillItemBO;
 import com.jeesite.modules.check.entity.CheckBillItem;
 import com.jeesite.modules.check.service.CheckBillItemService;
 import com.jeesite.modules.check.vo.CheckBillStatisticsVo;
+import com.jeesite.modules.customer.entity.Customer;
 import com.jeesite.modules.customer.service.CustomerService;
 import com.jeesite.modules.enums.BillTypeEnum;
 import com.jeesite.modules.utils.DateUtils;
 import com.jeesite.modules.utils.Idutils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -39,7 +43,9 @@ import com.jeesite.common.entity.Page;
 import com.jeesite.common.web.BaseController;
 import com.jeesite.modules.check.entity.CheckBill;
 import com.jeesite.modules.check.service.CheckBillService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -53,6 +59,7 @@ import java.util.stream.Collectors;
  * @author pengxincheng
  * @version 2019-06-22
  */
+@Slf4j
 @Controller
 @RequestMapping(value = "${adminPath}/check/checkBill")
 public class CheckBillController extends BaseController {
@@ -291,4 +298,30 @@ public class CheckBillController extends BaseController {
         }
         return result;
     }
+
+
+    /**
+     * 导入表单
+     */
+    @RequestMapping(value = "uploadForm")
+    public String uploadForm(Model model) {
+
+        return "modules/check/checkBillUpload";
+    }
+
+    /**
+     * 导入检测单
+     */
+    @RequestMapping(value = "/upload")
+    @ResponseBody
+    public String upload(MultipartFile file) throws IOException {
+        try {
+            checkBillService.importBill(file);
+        }catch (Exception re){
+            log.error(re.getMessage(),re);
+            return renderResult(Global.FALSE, text(re.getMessage()));
+        }
+        return renderResult(Global.TRUE, text("导入成功！"));
+    }
+
 }

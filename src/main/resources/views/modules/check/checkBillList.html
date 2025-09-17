@@ -21,7 +21,7 @@
 				<% if(hasPermi('check:checkBill:edit')){ %>
 					<a href="${ctx}/check/checkBill/form" class="btn btn-default btnTool" title="${text('新增检测单')}"><i class="fa fa-plus"></i> ${text('新增')}</a>
 				<% } %>
-
+				<button  id="btnImport" class="btn btn-default" title="${text('导入')}"><i class="fa"></i> ${text('导入')}</button>
 				<button id="exportButton" class="btn btn-primary" title="${text('导出检测单')}"><i class="fa"></i> ${text('导出')}</button>
 			</div>
 		</div>
@@ -134,7 +134,7 @@ $('#dataGrid').dataGrid({
 	],
 	// 加载成功后执行事件
 	ajaxSuccess: function(data){
-		
+
 	},
 });
 
@@ -197,4 +197,36 @@ $("#searchForm").submit(function () {
 		})
 	}
 
+
+
+	$('#btnImport').click(function (){
+		layer.open({
+			type: 2,
+			title: '新增客户',
+			btn:['确定','取消'],
+			maxmin: true,
+			area: ['800px', '500px'],
+			content: '${ctx}/check/checkBill/uploadForm',
+			success: function(layero, index){
+				$(layero).find("iframe").contents().find("#btnSubmit").hide();
+				$(layero).find("iframe").contents().find("#btnCancel").hide();
+			},
+			yes: function(index, layero){
+
+				var form = $(layero).find("iframe").contents().find("#inputForm");
+				js.ajaxSubmitForm(form,function(data){
+					if(data.result == 'true'){
+						js.showMessage(data.message);
+						$("#btnSearch").click()
+					}else {
+						alert(data.message)
+					}
+				},'json',false);
+
+			},
+			end: function(){
+
+			}
+		});
+	})
 </script>

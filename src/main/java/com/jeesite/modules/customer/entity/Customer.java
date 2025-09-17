@@ -11,6 +11,9 @@ import com.jeesite.common.mybatis.annotation.Column;
 import com.jeesite.common.mybatis.annotation.Table;
 import com.jeesite.common.mybatis.mapper.query.QueryType;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * 客户表Entity
  * @author pengxincheng
@@ -30,7 +33,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 	}, orderBy="a.update_date DESC"
 )
 public class Customer extends DataEntity<Customer> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String name;		// 客户名称
 	private String plateNumber;		// 车牌号
@@ -72,7 +75,7 @@ public class Customer extends DataEntity<Customer> {
 	public Customer(String id){
 		super(id);
 	}
-	
+
 	@NotBlank(message="客户名称不能为空")
 	@Length(min=0, max=64, message="客户名称长度不能超过 64 个字符")
 	public String getName() {
@@ -82,7 +85,7 @@ public class Customer extends DataEntity<Customer> {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	@NotBlank(message="车牌号不能为空")
 	@Length(min=0, max=20, message="车牌号长度不能超过 20 个字符")
 	public String getPlateNumber() {
@@ -92,7 +95,7 @@ public class Customer extends DataEntity<Customer> {
 	public void setPlateNumber(String plateNumber) {
 		this.plateNumber = plateNumber;
 	}
-	
+
 	@Length(min=0, max=255, message="客户地址长度不能超过 255 个字符")
 	public String getAddress() {
 		return address;
@@ -101,7 +104,7 @@ public class Customer extends DataEntity<Customer> {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	@Length(min=0, max=64, message="车型长度不能超过 64 个字符")
 	public String getCarType() {
 		return carType;
@@ -110,7 +113,7 @@ public class Customer extends DataEntity<Customer> {
 	public void setCarType(String carType) {
 		this.carType = carType;
 	}
-	
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -176,4 +179,14 @@ public class Customer extends DataEntity<Customer> {
 	public void setNotLocal(String notLocal) {
 		this.notLocal = notLocal;
 	}
+
+
+	public String[] getCustomerCodeIn(){
+		return sqlMap.getWhere().getValue("code", QueryType.IN);
+	}
+
+	public void setCustomerCodeIn(String[] codes){
+		sqlMap.getWhere().and("code", QueryType.IN, codes);
+	}
+
 }

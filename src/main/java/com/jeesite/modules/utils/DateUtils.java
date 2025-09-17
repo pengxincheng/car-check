@@ -1,5 +1,8 @@
 package com.jeesite.modules.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,6 +68,34 @@ public class DateUtils {
         }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(date);
+    }
+
+    /**
+     * 字符串转日期
+     * @param dateStr
+     * @return
+     */
+
+    public static Date parseDate(String dateStr) {
+        if (StringUtils.isBlank(dateStr)) {
+            return null;
+        }
+
+        SimpleDateFormat[] formats = {
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+                new SimpleDateFormat("yyyy-M-d H:m"),
+                new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"),
+                new SimpleDateFormat("yyyy/M/d H:m:s")
+        };
+
+        for (SimpleDateFormat format : formats) {
+            try {
+                return format.parse(dateStr);
+            } catch (ParseException e) {
+                // 继续尝试下一种格式
+            }
+        }
+        throw new RuntimeException("无法解析日期字符串: " + dateStr);
     }
 
     public static Date getMinDateOfDay(Date date){

@@ -29,7 +29,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 @Table(name="check_bill", alias="a", columns={
 		@Column(name="id", attrName="id", label="id", isPK=true),
 		@Column(name="bill_id", attrName="billId", label="检测单号"),
-		@Column(name="check_time", attrName="checkTime", label="检测时间", isInsert=false, isUpdate=false),
+		@Column(name="check_time", attrName="checkTime", label="检测时间"),
 		@Column(name="plate_number", attrName="plateNumber", label="车牌号"),
 		@Column(name="customer_id", attrName="customerId", label="客户编号"),
 		@Column(name="customer_name", attrName="customerName", label="客户名称", queryType=QueryType.LIKE),
@@ -46,7 +46,7 @@ import com.jeesite.common.mybatis.mapper.query.QueryType;
 	}, orderBy="a.check_time DESC"
 )
 public class CheckBill extends DataEntity<CheckBill> {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String billId;		// 检测单号
 	private Date checkTime;		// 检测时间
@@ -64,7 +64,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	private String oriBillId;
 	private Integer settleType;
 	private List<CheckBillItem> checkBillItemList = ListUtils.newArrayList();		// 子表列表
-	
+
 	public CheckBill() {
 		this(null);
 	}
@@ -72,7 +72,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public CheckBill(String id){
 		super(id);
 	}
-	
+
 	@NotBlank(message="检测单号不能为空")
 	@Length(min=0, max=64, message="检测单号长度不能超过 64 个字符")
 	public String getBillId() {
@@ -82,7 +82,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setBillId(String billId) {
 		this.billId = billId;
 	}
-	
+
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	public Date getCheckTime() {
 		return checkTime;
@@ -91,7 +91,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCheckTime(Date checkTime) {
 		this.checkTime = checkTime;
 	}
-	
+
 	@NotBlank(message="车牌号不能为空")
 	@Length(min=0, max=20, message="车牌号长度不能超过 20 个字符")
 	public String getPlateNumber() {
@@ -101,7 +101,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setPlateNumber(String plateNumber) {
 		this.plateNumber = plateNumber;
 	}
-	
+
 	@NotBlank(message="客户编号不能为空")
 	@Length(min=0, max=64, message="客户编号长度不能超过 64 个字符")
 	public String getCustomerId() {
@@ -111,7 +111,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCustomerId(String customerId) {
 		this.customerId = customerId;
 	}
-	
+
 	@Length(min=0, max=100, message="客户名称长度不能超过 100 个字符")
 	public String getCustomerName() {
 		return customerName;
@@ -120,7 +120,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
-	
+
 	public String getCustomerPhoneNumber() {
 		return customerPhoneNumber;
 	}
@@ -128,7 +128,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCustomerPhoneNumber(String customerPhoneNumber) {
 		this.customerPhoneNumber = customerPhoneNumber;
 	}
-	
+
 	@Length(min=0, max=200, message="客户地址长度不能超过 200 个字符")
 	public String getCustomerAddress() {
 		return customerAddress;
@@ -137,7 +137,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCustomerAddress(String customerAddress) {
 		this.customerAddress = customerAddress;
 	}
-	
+
 	@NotBlank(message="车型不能为空")
 	@Length(min=0, max=100, message="车型长度不能超过 100 个字符")
 	public String getCarType() {
@@ -147,7 +147,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCarType(String carType) {
 		this.carType = carType;
 	}
-	
+
 	@NotNull(message="应收金额不能为空")
 	public Double getTotalAmt() {
 		return totalAmt;
@@ -156,7 +156,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setTotalAmt(Double totalAmt) {
 		this.totalAmt = totalAmt;
 	}
-	
+
 	public Date getCheckTime_gte() {
 		return sqlMap.getWhere().getValue("check_time", QueryType.GTE);
 	}
@@ -164,7 +164,7 @@ public class CheckBill extends DataEntity<CheckBill> {
 	public void setCheckTime_gte(Date checkTime) {
 		sqlMap.getWhere().and("check_time", QueryType.GTE, checkTime);
 	}
-	
+
 	public Date getCheckTime_lte() {
 		return sqlMap.getWhere().getValue("check_time", QueryType.LTE);
 	}
@@ -230,5 +230,14 @@ public class CheckBill extends DataEntity<CheckBill> {
 
 	public void setAgentName(String agentName) {
 		this.agentName = agentName;
+	}
+
+
+	public String[] getBillIdIn(){
+		return sqlMap.getWhere().getValue("bill_id", QueryType.IN);
+	}
+
+	public void setBillIdIn(String[] codes){
+		sqlMap.getWhere().and("bill_id", QueryType.IN, codes);
 	}
 }
