@@ -200,6 +200,7 @@ $("#searchForm").submit(function () {
 
 
 	$('#btnImport').click(function (){
+		var canSubmit = true;
 		layer.open({
 			type: 2,
 			title: '新增客户',
@@ -212,20 +213,35 @@ $("#searchForm").submit(function () {
 				$(layero).find("iframe").contents().find("#btnCancel").hide();
 			},
 			yes: function(index, layero){
+				if (!canSubmit) {
+					return false;
+				}
+
+				canSubmit = false;
+				var submitBtn = layer.getChildFrame('button:first', index);
+				var originalText = submitBtn.text();
+				submitBtn.text('提交中...').prop('disabled', true);
+
+				setTimeout(function() {
+					canSubmit = true;
+					submitBtn.text(originalText).prop('disabled', false);
+				}, 2000);
 
 				var form = $(layero).find("iframe").contents().find("#inputForm");
-				js.ajaxSubmitForm(form,function(data){
-					if(data.result == 'true'){
+				js.ajaxSubmitForm(form, function(data) {
+					if (data.result == 'true') {
 						js.showMessage(data.message);
-						$("#btnSearch").click()
-					}else {
-						alert(data.message)
+						$("#btnSearch").click();
+						layer.closeAll();
+					} else {
+						alert(data.message);
 					}
-				},'json',false);
-
+				}, 'json', false);
+				
+				return false;
 			},
 			end: function(){
-
+				canSubmit = true;
 			}
 		});
 	})
